@@ -146,8 +146,7 @@ double expression()
 
 int main()
 try
-{
-	
+{	
 	cout << "Welcome to our simple calculator.\n";
 	cout << "Please enter expressions using floating-point numbers.\n";
 	cout << "Operators available are '+', '-', '*', '/', and '%'.\n";
