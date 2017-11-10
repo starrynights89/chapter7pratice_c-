@@ -151,15 +151,16 @@ try
 	cout << "Welcome to our simple calculator.\n";
 	cout << "Please enter expressions using floating-point numbers.\n";
 	cout << "Operators available are '+', '-', '*', '/', and '%'.\n";
-	cout << "Type ';' or '=' to get a value and 'q' or 'x' to quit.\n";
+	cout << "Type ';' to get a value and 'q' to quit.\n";
 	
 	double val = 0;
 	while (cin)
 	{ 
+		cout << ">"; //print prompt
 		Token t = ts.get();
-		if (t.kind == 'q' || t.kind == 'x') // 'q' for quit
+		if (t.kind == 'q') // 'q' for quit
 			break;
-		if (t.kind == ';' || t.kind == '=') // ';' for "print now"
+		if (t.kind == ';') // ';' for "print now"
 		{
 			cout << "=" << val << '\n';
 		}
