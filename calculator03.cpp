@@ -172,10 +172,13 @@ try
 	}
     keep_window_open();
 }
-catch(exception& e)
+catch(runtime_error& e)
 {
     cerr << e.what() << '\n';
-    keep_window_open();
+    //keep_window_open();
+	cout << "Please enter the character ~ to close the window\n";
+	for (char ch; cin >> ch;) //keep reading until we find a ~
+		if (ch == '~') return 1;
     return 1;
 }
 catch (...)
