@@ -87,8 +87,12 @@ double primary()
 	}
 	case '8': //we use '8' to represent a number
 		return t.value; //return the number's value
-	default:
-		error("primary expected");
+	case '-':
+		return - primary();
+	case '+':
+		return primary();
+default:
+	error("primary expected");
 	}
 }
 
