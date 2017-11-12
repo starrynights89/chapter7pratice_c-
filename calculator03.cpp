@@ -157,19 +157,17 @@ try
 	{ 
 		cout << ">"; //print prompt
 		Token t = ts.get();
-		if (t.kind == 'q') // 'q' for quit
-			break;
-		if (t.kind == ';') // ';' for "print now"
+		while (t.kind == ';') t=ts.get(); //eat ';'
+		if (t.kind == 'q')
 		{
-			cout << "=" << val << '\n';
+			keep_window_open();
+			return 0;
 		}
-		else
-		{
-			ts.putback(t);
-		}
-		val = expression();
+		ts.putback(t);
+		cout << " = " << expression() << '\n';
 	}
     keep_window_open();
+	return 0;
 }
 catch(runtime_error& e)
 {
@@ -180,6 +178,6 @@ catch(runtime_error& e)
 catch (...)
 {
     cerr << "exception \n";
-    keep_window_open();
+    keep_window_open("~~");
     return 2; 
 }
