@@ -59,7 +59,7 @@ Token Token_stream::get() //read a token from cin
 			cin.putback(ch); // put digit back into the input stream 
 			double val;
 			cin >> val; //read a floating-point number
-			return Token('8', val); //let '8' represent "a number"
+			return Token(number, val); 
 		}
 		default: 
 			error("Bad token"); 
@@ -85,7 +85,7 @@ double primary()
 			return d;
 		}
 	}
-	case '8': //we use '8' to represent a number
+	case number: 
 		return t.value; //return the number's value
 	case '-':
 		return - primary();
