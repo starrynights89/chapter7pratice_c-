@@ -117,6 +117,14 @@ double term()
 			t = ts.get();
 			break;
 		}
+		case '%':
+		{
+			double d = primary();
+			if (d == 0) error("divide by zero");
+			left = fmod(left, d);
+			t = ts.get();
+			break;
+		}
 		default:
 			ts.putback(t); //put t back into the Token stream
 			return left;
