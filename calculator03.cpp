@@ -166,8 +166,8 @@ try
 		else
 		{
 			ts.putback(t);
-			val = expression();
 		}
+		val = expression();
 	}
     keep_window_open();
 }
