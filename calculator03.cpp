@@ -23,6 +23,8 @@ private:
 	Token buffer; 
 };
 
+const char number = '8';
+
 //The constructor just sets full to indicate that the buffer is empty:
 Token_stream::Token_stream()
 :full(false), buffer(0) //no Token in buffer
