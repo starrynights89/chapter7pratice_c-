@@ -165,6 +165,19 @@ double expression()
 const string prompt = ">";
 const string result = "="; //used to indicate that what follows is a result
 
+void calculate() //expression evaluation loop
+{
+	while (cin)
+	{
+		cout << prompt;
+		Token t = ts.get();
+		while (t.kind == print) t = ts.get(); //first discard all "prints"
+		if (t.kind == quit) return;
+		ts.putback(t);
+		cout << result << expression() << '\n';
+	}
+}
+
 int main()
 try
 {	
