@@ -23,7 +23,9 @@ private:
 	Token buffer; 
 };
 
-const char number = '8';
+const char number = '8'; //t.kind == nuimber means that t is a number Token
+const char quit = 'q'; //t.kind == quit means that t is a quit Token
+const char print = ';'; //t.kind == print means that t is a print Token 
 
 //The constructor just sets full to indicate that the buffer is empty:
 Token_stream::Token_stream()
@@ -172,8 +174,8 @@ try
 	{ 
 		cout << ">"; //print prompt
 		Token t = ts.get();
-		while (t.kind == ';') t=ts.get(); //eat ';'
-		if (t.kind == 'q')
+		while (t.kind == print) t=ts.get(); //eat ';'
+		if (t.kind == quit)
 		{
 			keep_window_open();
 			return 0;
