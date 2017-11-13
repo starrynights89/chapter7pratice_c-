@@ -27,6 +27,7 @@ const char number = '8'; //t.kind == nuimber means that t is a number Token
 const char quit = 'q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a print Token 
 
+
 //The constructor just sets full to indicate that the buffer is empty:
 Token_stream::Token_stream()
 :full(false), buffer(0) //no Token in buffer
@@ -161,6 +162,9 @@ double expression()
 	}
 }
 
+const string prompt = ">";
+const string result = "="; //used to indicate that what follows is a result
+
 int main()
 try
 {	
@@ -172,7 +176,7 @@ try
 	double val = 0;
 	while (cin)
 	{ 
-		cout << ">"; //print prompt
+		cout << prompt; //print prompt
 		Token t = ts.get();
 		while (t.kind == print) t=ts.get(); //eat ';'
 		if (t.kind == quit)
@@ -181,7 +185,7 @@ try
 			return 0;
 		}
 		ts.putback(t);
-		cout << " = " << expression() << '\n';
+		cout << result << expression() << '\n';
 	}
     keep_window_open();
 	return 0;
