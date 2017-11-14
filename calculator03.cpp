@@ -207,6 +207,7 @@ const string result = "="; //used to indicate that what follows is a result
 void calculate() //expression evaluation loop
 {
 	while (cin)
+	try
 	{
 		cout << prompt;
 		Token t = ts.get();
@@ -214,6 +215,11 @@ void calculate() //expression evaluation loop
 		if (t.kind == quit) return;
 		ts.putback(t);
 		cout << result << expression() << '\n';
+	}
+	catch (exception& e)
+	{
+		cerr << e.what() << '\n'; //write error message
+		clean_up_mess();
 	}
 }
 
