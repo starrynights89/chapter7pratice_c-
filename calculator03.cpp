@@ -1,3 +1,36 @@
+/*
+		Simple calculator
+
+		Revision history:
+
+			Revised by Alexander Hartson Nov 2017
+		
+		This program implements a basic expression calculator.
+		Input from cin; output to cout.
+		The grammar for input is:
+
+		Statement:
+			Expression
+			Print 
+			Quit
+
+		Print:
+			;
+		Quit:
+			q
+		
+		Expression:
+			Term
+			Expression + Term
+			Expression - Term
+		Term:
+			Primary 
+			Term * Primary
+			Term / Primary 
+			Term % Primary
+		Primary:
+*/
+
 #include "std_lib_facilities.h"
 
 class Token
