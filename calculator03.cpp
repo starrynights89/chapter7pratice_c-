@@ -42,9 +42,9 @@ void Token_stream::putback(Token t)
 	full = true; // buffer is now full 
 }
 
-Token Token_stream::get() //read a token from cin 
+Token Token_stream::get() //read a token from cin and compose a Token
 {
-	if (full)
+	if (full) //check if we already have a Token ready
 	{
 		full = false;
 		return buffer; 
@@ -54,13 +54,19 @@ Token Token_stream::get() //read a token from cin
 	
 	switch (ch)
 	{
-		case ';': case '=': //for "print"
-		case 'q': case 'x': //for "quit"
-		case '(': case ')': case '+': case '-':  case '*': case '/':
-			return Token(ch); //let each charcter represent itself
-		case '.':
+		case quit:
+		case print:
+		case '(':
+		case ')':
+		case '+':
+		case '-':
+		case '*':
+		case '/':
+		case '%':
+			return Token{ch}; //let each character represent itself
+		case '.':			  //a floating-point-literal can start with a dot
 		case '0': case '1': case '2': case '3': case '4':
-		case '5': case '6': case '7': case '8': case '9':
+		case '5': case '6': case '7': case '8': case '9':		//numeric literal
 		{
 			cin.putback(ch); // put digit back into the input stream 
 			double val;
