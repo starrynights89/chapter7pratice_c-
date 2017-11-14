@@ -47,25 +47,19 @@ public:
 class Token_stream
 {
 public:
-	Token_stream(); //make a Token_stream that reads from cin
 	Token get(); //get a Token (get() is defined elswhere)
 	void putback(Token t); //put a Token back 
+	//The constructor just sets full to indicate that the buffer is empty:
+	Token_stream() :full(false), buffer(0) { } //no Token in buffer
 	
 private:
 	bool full; // is there a Token in 
 	Token buffer; 
 };
 
-const char number = '8'; //t.kind == nuimber means that t is a number Token
+const char number = '8'; //t.kind == number means that t is a number Token
 const char quit = 'q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a print Token 
-
-
-//The constructor just sets full to indicate that the buffer is empty:
-Token_stream::Token_stream()
-:full(false), buffer(0) //no Token in buffer
-{
-}
 
 // The putback() member function puts its argument back into the Token_stream's buffer:
 void Token_stream::putback(Token t)
@@ -203,6 +197,18 @@ double expression()
 
 const string prompt = ">";
 const string result = "="; //used to indicate that what follows is a result
+
+void clean_up_mess() //naive
+{
+	while (true)
+	{
+		Token t = ts.get();
+		if (t.kind == print) //skip until we find a print
+		{
+			return;
+		}
+	}
+}
 
 void calculate() //expression evaluation loop
 {
