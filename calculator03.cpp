@@ -185,22 +185,9 @@ try
 	cout << "Please enter expressions using floating-point numbers.\n";
 	cout << "Operators available are '+', '-', '*', '/', and '%'.\n";
 	cout << "Type ';' to get a value and 'q' to quit.\n";
-	
-	double val = 0;
-	while (cin)
-	{ 
-		cout << prompt; //print prompt
-		Token t = ts.get();
-		while (t.kind == print) t=ts.get(); //eat ';'
-		if (t.kind == quit)
-		{
-			keep_window_open();
-			return 0;
-		}
-		ts.putback(t);
-		cout << result << expression() << '\n';
-	}
-    keep_window_open();
+
+	calculate();
+	keep_window_open(); //cope with Windows console mode
 	return 0;
 }
 catch(runtime_error& e)
