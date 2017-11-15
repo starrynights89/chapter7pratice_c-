@@ -65,6 +65,8 @@ public:
 	double value;
 };
 
+vector<Variable>var_table;
+
 const char number = '8'; //t.kind == number means that t is a number Token
 const char quit = 'q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a print Token 
