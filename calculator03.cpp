@@ -49,12 +49,13 @@ class Token_stream
 public:
 	Token get(); //get a Token (get() is defined elswhere)
 	void putback(Token t); //put a Token back 
+	void ignore(char c); //discard characters up to and include a c
 	//The constructor just sets full to indicate that the buffer is empty:
 	Token_stream() :full(false), buffer(0) { } //no Token in buffer
 	
 private:
-	bool full; // is there a Token in 
-	Token buffer; 
+	bool full; // is there a Token in the buffer?
+	Token buffer; //here is where we keep a Token put back using putback()
 };
 
 const char number = '8'; //t.kind == number means that t is a number Token
