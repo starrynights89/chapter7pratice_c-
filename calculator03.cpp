@@ -62,6 +62,27 @@ const char number = '8'; //t.kind == number means that t is a number Token
 const char quit = 'q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a print Token 
 
+void Token_stream::ignore(char c) //c represent the kind of Token
+{
+	//first look in buffer:
+	if (full && c == buffer.kind)
+	{
+		full = false;
+		return;
+	}
+	full = false;
+	
+	//now search input:
+	char ch = 0;
+	while (cin >> ch)
+	{
+		if (ch == c)
+		{
+			return;
+		}
+	}
+}
+
 // The putback() member function puts its argument back into the Token_stream's buffer:
 void Token_stream::putback(Token t)
 {
