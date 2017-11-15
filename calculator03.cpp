@@ -220,16 +220,9 @@ double expression()
 const string prompt = ">";
 const string result = "="; //used to indicate that what follows is a result
 
-void clean_up_mess() //naive
+void clean_up_mess() 
 {
-	while (true)
-	{
-		Token t = ts.get();
-		if (t.kind == print) //skip until we find a print
-		{
-			return;
-		}
-	}
+	ts.ignore(print);
 }
 
 void calculate() //expression evaluation loop
