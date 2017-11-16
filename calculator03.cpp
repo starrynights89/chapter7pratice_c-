@@ -92,6 +92,19 @@ void Token_stream::ignore(char c) //c represent the kind of Token
 	}
 }
 
+double get_value(string s)
+	//return the value of the Variable named s
+{
+	for (const Variable& v : var_table)
+	{
+		if(v.name == s)
+		{
+			return v.value;
+		}
+	}
+	error("get: undefined variable ", s);
+}
+
 // The putback() member function puts its argument back into the Token_stream's buffer:
 void Token_stream::putback(Token t)
 {
