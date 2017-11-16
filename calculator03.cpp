@@ -116,6 +116,7 @@ void set_value(string s, double d)
 			return; 
 		}
 	}
+	error("set: undefined variable ", s);
 }
 
 // The putback() member function puts its argument back into the Token_stream's buffer:
