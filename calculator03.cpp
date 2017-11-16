@@ -71,6 +71,27 @@ const char number = '8'; //t.kind == number means that t is a number Token
 const char quit = 'q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a print Token 
 
+bool is_declared(string var)
+	//is var already in var_table?
+{
+	for (const Variable& v : var_table)
+	{
+		if(v.name == var) 
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+double define_name(string var, double val)
+	//add (var, val) to var_table
+{
+	if (is_declared(var)) error(var, " declared twice ");
+	var_table.push_back(Variable(var, val));
+	return val;
+}
+
 void Token_stream::ignore(char c) //c represent the kind of Token
 {
 	//first look in buffer:
