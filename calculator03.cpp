@@ -256,6 +256,19 @@ double expression()
 const string prompt = ">";
 const string result = "="; //used to indicate that what follows is a result
 
+double statement()
+{
+	Token t = ts.get();
+	switch (t.kind)
+	{
+		case let:
+			return declaration();
+		default:
+			ts.putback();
+			return expression();
+	}
+}
+
 void clean_up_mess() 
 {
 	ts.ignore(print);
