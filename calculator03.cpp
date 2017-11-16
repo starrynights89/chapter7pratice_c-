@@ -264,7 +264,7 @@ double statement()
 		case let:
 			return declaration();
 		default:
-			ts.putback();
+			ts.putback(t);
 			return expression();
 	}
 }
@@ -284,7 +284,7 @@ void calculate() //expression evaluation loop
 		while (t.kind == print) t = ts.get(); //first discard all "prints"
 		if (t.kind == quit) return;
 		ts.putback(t);
-		cout << result << expression() << '\n';
+		cout << result << statement() << '\n';
 	}
 	catch (exception& e)
 	{
