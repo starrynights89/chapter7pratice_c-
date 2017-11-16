@@ -105,6 +105,19 @@ double get_value(string s)
 	error("get: undefined variable ", s);
 }
 
+void set_value(string s, double d)
+	//set the Variable named s to d
+{
+	for(Variable& v : var_table)
+	{
+		if(v.name == s)
+		{
+			v.value = d;
+			return; 
+		}
+	}
+}
+
 // The putback() member function puts its argument back into the Token_stream's buffer:
 void Token_stream::putback(Token t)
 {
