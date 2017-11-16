@@ -92,6 +92,8 @@ double define_name(string var, double val)
 	return val;
 }
 
+
+
 void Token_stream::ignore(char c) //c represent the kind of Token
 {
 	//first look in buffer:
