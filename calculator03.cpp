@@ -95,6 +95,19 @@ double define_name(string var, double val)
 double declaration()
 	//assume we have seen "let"
 	//handle: name = expression
+	//declare a variable called "name" with the initial value "expression"
+{
+	Token t = ts.get();
+	if(t.kind != name) error("name expected in declaration");
+	string var_name = t.name;
+
+	Token t2 = ts.get();
+	if(t2.kind != '=') error("= missing in declaration of ", var_name);
+
+	double d = expression();
+	define_name(var_name, d);
+	return d; 
+}
 
 void Token_stream::ignore(char c) //c represent the kind of Token
 {
