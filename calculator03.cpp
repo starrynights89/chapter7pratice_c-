@@ -38,10 +38,10 @@ class Token
 public:
     char kind; //what kind of token
     double value; //for numbers: a value
-	Token(char ch) //make a Token from char
-		:kind(ch), value(0) {}
-	Token(char ch, double val) //make a Token from a char and a double
-		:kind(ch), value(val) {}
+	string name;
+	Token(char ch) :kind{ch} { } //initialize kind with ch
+	Token(char ch, double val) :kind{ch}, value{val} { } //initialize kind and value
+	Token(char ch, string n) :kind{ch}, name{n} { } //initialize kind and name
 };
 
 class Token_stream
