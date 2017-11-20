@@ -63,6 +63,7 @@ class Variable
 public:
 	string name;
 	double value;
+	Variable(string n, double v) :name(n), value(v) { }
 };
 
 vector<Variable>var_table;
@@ -73,6 +74,33 @@ const char print = ';'; //t.kind == print means that t is a print Token
 const char name = 'a'; //name token
 const char let = 'L'; //declaration token
 const string declkey = "let"; //declaration keyword
+
+double get_value(string s)
+	//return the value of the Variable named s
+{
+	for (const Variable& v : var_table)
+	{
+		if(v.name == s)
+		{
+			return v.value;
+		}
+	}
+	error("get: undefined variable ", s);
+}
+
+void set_value(string s, double d)
+	//set the Variable named s to d
+{
+	for(Variable& v : var_table)
+	{
+		if(v.name == s)
+		{
+			v.value = d;
+			return; 
+		}
+	}
+	error("set: undefined variable ", s);
+}
 
 bool is_declared(string var)
 	//is var already in var_table?
@@ -131,33 +159,6 @@ void Token_stream::ignore(char c) //c represent the kind of Token
 			return;
 		}
 	}
-}
-
-double get_value(string s)
-	//return the value of the Variable named s
-{
-	for (const Variable& v : var_table)
-	{
-		if(v.name == s)
-		{
-			return v.value;
-		}
-	}
-	error("get: undefined variable ", s);
-}
-
-void set_value(string s, double d)
-	//set the Variable named s to d
-{
-	for(Variable& v : var_table)
-	{
-		if(v.name == s)
-		{
-			v.value = d;
-			return; 
-		}
-	}
-	error("set: undefined variable ", s);
 }
 
 // The putback() member function puts its argument back into the Token_stream's buffer:
