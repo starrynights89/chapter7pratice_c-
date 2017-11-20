@@ -123,6 +123,8 @@ double define_name(string var, double val)
 	return val;
 }
 
+double expression();
+
 double declaration()
 	//assume we have seen "let"
 	//handle: name = expression
