@@ -65,13 +65,6 @@ public:
 	double value;
 };
 
-struct Variable
-{
-	string name;
-	double value;
-	Variable(string n, double v) :name(n), value(v) { }
-};
-
 vector<Variable>var_table;
 
 const char number = '8'; //t.kind == number means that t is a number Token
