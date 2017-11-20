@@ -115,6 +115,38 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	}
 }
 
+// The putback() member function puts its argument back into the Token_stream's buffer:
+void Token_stream::putback(Token t)
+{
+	if (full) error("putback() into the full buffer");
+	buffer = t; //copy t to buffer
+	full = true; // buffer is now full 
+}
+
+//ignore Tokens up to a certain kind
+void Token_stream::ignore(char c) //c represent the kind of Token
+{
+	//first look in buffer:
+	if (full && c == buffer.kind)
+	{
+		full = false;
+		return;
+	}
+	full = false;
+	
+	//now search input:
+	char ch = 0;
+	while (cin >> ch)
+	{
+		if (ch == c)
+		{
+			return;
+		}
+	}
+}
+
+//--------------------------------------------------------------------
+
 class Variable
 {
 public:
@@ -190,35 +222,6 @@ double declaration()
 	double d = expression();
 	define_name(var_name, d);
 	return d; 
-}
-
-void Token_stream::ignore(char c) //c represent the kind of Token
-{
-	//first look in buffer:
-	if (full && c == buffer.kind)
-	{
-		full = false;
-		return;
-	}
-	full = false;
-	
-	//now search input:
-	char ch = 0;
-	while (cin >> ch)
-	{
-		if (ch == c)
-		{
-			return;
-		}
-	}
-}
-
-// The putback() member function puts its argument back into the Token_stream's buffer:
-void Token_stream::putback(Token t)
-{
-	if (full) error("putback() into the full buffer");
-	buffer = t; //copy t to buffer
-	full = true; // buffer is now full 
 }
 
 Token_stream ts; //provides get() and putback()
