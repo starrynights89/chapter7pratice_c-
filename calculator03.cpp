@@ -58,6 +58,7 @@ private:
 	Token buffer; //here is where we keep a Token put back using putback()
 };
 
+//constructor
 Token_stream::Token_stream() :full(false), buffer(0) { } //no Token in buffer
 
 const char number = '8'; //t.kind == number means that t is a number Token
@@ -66,6 +67,53 @@ const char print = ';'; //t.kind == print means that t is a print Token
 const char name = 'a'; //name token
 const char let = 'L'; //declaration token
 const string declkey = "let"; //declaration keyword
+
+Token Token_stream::get() //read a token from cin and compose a Token
+{
+	if (full) //check if we already have a Token ready
+	{
+		full = false;
+		return buffer; 
+	}
+	char ch;
+	cin >> ch; //note that >> skips whitespace (space, newline, tab, etc.)
+	
+	switch (ch)
+	{
+		case quit:
+		case print:
+		case '(':
+		case ')':
+		case '+':
+		case '-':
+		case '*':
+		case '/':
+		case '%':
+			return Token{ch}; //let each character represent itself
+		case '.':			  //a floating-point-literal can start with a dot
+		case '0': case '1': case '2': case '3': case '4':
+		case '5': case '6': case '7': case '8': case '9':		//numeric literal
+		{
+			cin.putback(ch); // put digit back into the input stream 
+			double val;
+			cin >> val; //read a floating-point number
+			return Token(number, val); 
+		}
+		default:
+			if (isalpha(ch))
+			{
+				cin.putback(ch);
+				string s;
+				cin >> s;
+				if (s == declkey) 
+				{
+					return Token(let); //declaration keywordS
+				}
+				return Token{name, s};
+			} 
+			error("Bad token"); 
+	}
+}
 
 class Variable
 {
@@ -171,53 +219,6 @@ void Token_stream::putback(Token t)
 	if (full) error("putback() into the full buffer");
 	buffer = t; //copy t to buffer
 	full = true; // buffer is now full 
-}
-
-Token Token_stream::get() //read a token from cin and compose a Token
-{
-	if (full) //check if we already have a Token ready
-	{
-		full = false;
-		return buffer; 
-	}
-	char ch;
-	cin >> ch; //note that >> skips whitespace (space, newline, tab, etc.)
-	
-	switch (ch)
-	{
-		case quit:
-		case print:
-		case '(':
-		case ')':
-		case '+':
-		case '-':
-		case '*':
-		case '/':
-		case '%':
-			return Token{ch}; //let each character represent itself
-		case '.':			  //a floating-point-literal can start with a dot
-		case '0': case '1': case '2': case '3': case '4':
-		case '5': case '6': case '7': case '8': case '9':		//numeric literal
-		{
-			cin.putback(ch); // put digit back into the input stream 
-			double val;
-			cin >> val; //read a floating-point number
-			return Token(number, val); 
-		}
-		default:
-			if (isalpha(ch))
-			{
-				cin.putback(ch);
-				string s;
-				cin >> s;
-				if (s == declkey) 
-				{
-					return Token(let); //declaration keywordS
-				}
-				return Token{name, s};
-			} 
-			error("Bad token"); 
-	}
 }
 
 Token_stream ts; //provides get() and putback()
