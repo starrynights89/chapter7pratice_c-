@@ -44,19 +44,28 @@ public:
 	Token(char ch, string n) :kind{ch}, name{n} { } //initialize kind and name
 };
 
+
+//stream of tokens
 class Token_stream
 {
 public:
+	Token_stream(); //make a Token_stream that reads from cin
 	Token get(); //get a Token (get() is defined elswhere)
 	void putback(Token t); //put a Token back 
 	void ignore(char c); //discard characters up to and include a c
-	//The constructor just sets full to indicate that the buffer is empty:
-	Token_stream() :full(false), buffer(0) { } //no Token in buffer
-	
 private:
 	bool full; // is there a Token in the buffer?
 	Token buffer; //here is where we keep a Token put back using putback()
 };
+
+Token_stream::Token_stream() :full(false), buffer(0) { } //no Token in buffer
+
+const char number = '8'; //t.kind == number means that t is a number Token
+const char quit = 'q'; //t.kind == quit means that t is a quit Token
+const char print = ';'; //t.kind == print means that t is a print Token 
+const char name = 'a'; //name token
+const char let = 'L'; //declaration token
+const string declkey = "let"; //declaration keyword
 
 class Variable
 {
@@ -67,13 +76,6 @@ public:
 };
 
 vector<Variable>var_table;
-
-const char number = '8'; //t.kind == number means that t is a number Token
-const char quit = 'q'; //t.kind == quit means that t is a quit Token
-const char print = ';'; //t.kind == print means that t is a print Token 
-const char name = 'a'; //name token
-const char let = 'L'; //declaration token
-const string declkey = "let"; //declaration keyword
 
 double get_value(string s)
 	//return the value of the Variable named s
