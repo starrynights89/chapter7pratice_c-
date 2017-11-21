@@ -89,6 +89,8 @@ Token Token_stream::get() //read a token from cin and compose a Token
 		case '*':
 		case '/':
 		case '%':
+		case '=':
+		case ',':
 			return Token{ch}; //let each character represent itself
 		case '.':			  //a floating-point-literal can start with a dot
 		case '0': case '1': case '2': case '3': case '4':
