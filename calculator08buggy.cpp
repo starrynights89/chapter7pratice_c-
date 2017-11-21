@@ -11,6 +11,15 @@
 
 #include "std_lib_facilities.h"
 
+/* kind if the key field, and has the following values and meanings:
+	number - value contains a value
+	name - varname [ NONFIX ] contains a name
+	let - it is a let statement
+	quit - it is a quit statement
+	print - it is a print statement
+	other - it is an operator character
+*/
+
 struct Token {
 	char kind;
 	double value;
@@ -20,11 +29,15 @@ struct Token {
 	Token(char ch, string val) :kind(ch), varname(val) { } // fix added token 
 };
 
+/* This is a token stream, with buffer being the lookahead character
+if full is true. buffer is initialised more cleanly [ NONFIX ].
+*/
+
 class Token_stream {
 	bool full;
 	Token buffer;
 public:
-	Token_stream() :full(0), buffer(0) { }
+	Token_stream() :full(0), buffer(' ') { }
 
 	Token get();
 	void unget(Token t) { buffer=t; full=true; }
