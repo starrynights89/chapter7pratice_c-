@@ -319,6 +319,8 @@ void calculate() //expression evaluation loop
 	}
 }
 
+//--------------------------------------------------------------------
+
 double get_value(string s)
 	//return the value of the Variable named s
 {
@@ -331,6 +333,8 @@ double get_value(string s)
 	}
 	error("get: undefined variable ", s);
 }
+
+//--------------------------------------------------------------------
 
 void set_value(string s, double d)
 	//set the Variable named s to d
@@ -346,6 +350,8 @@ void set_value(string s, double d)
 	error("set: undefined variable ", s);
 }
 
+//--------------------------------------------------------------------
+
 bool is_declared(string var)
 	//is var already in var_table?
 {
@@ -359,6 +365,8 @@ bool is_declared(string var)
 	return false;
 }
 
+//--------------------------------------------------------------------
+
 double define_name(string var, double val)
 	//add (var, val) to var_table
 {
@@ -366,6 +374,8 @@ double define_name(string var, double val)
 	var_table.push_back(Variable(var, val));
 	return val;
 }
+
+//--------------------------------------------------------------------
 
 int main()
 try
