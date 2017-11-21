@@ -191,6 +191,68 @@ default:
 
 //--------------------------------------------------------------------
 
+// deal with *, /, %
+double term()
+{
+	double left = primary(); //read and evaluate a Term
+	Token t = ts.get();      //get the next Token from the Token stream
+	while (true)
+	{
+		switch (t.kind)
+		{
+		case '*':
+			left *= primary();
+			t = ts.get();
+			break;
+		case '/':
+		{
+			double d = primary();
+			if (d == 0) error("divide by zero");
+			left /= d;
+			t = ts.get();
+			break;
+		}
+		case '%':
+		{
+			double d = primary();
+			if (d == 0) error("divide by zero");
+			left = fmod(left, d);
+			t = ts.get();
+			break;
+		}
+		default:
+			ts.putback(t); //put t back into the Token stream
+			return left;
+		}
+	}
+}
+
+//--------------------------------------------------------------------
+
+// deal with + and -
+double expression()
+{
+	double left = term(); //read and evaluate a Term
+	Token t = ts.get(); //get the next Token from the Token stream
+	while (true)
+	{
+		switch (t.kind)
+		{
+		case '+':
+			left += term(); //evaluate a Term and add
+			t = ts.get();
+			break;
+		case '-':
+			left -= term(); //evaluate a Term and subtract
+			t = ts.get();
+			break;
+		default:
+			ts.putback(t); //put t back into the token stream
+			return left; //finally: no more + or -; return the answer
+		}
+	}
+}
+
 double get_value(string s)
 	//return the value of the Variable named s
 {
@@ -254,66 +316,6 @@ double declaration()
 	double d = expression();
 	define_name(var_name, d);
 	return d; 
-}
-
-// deal with *, /, %
-double term()
-{
-	double left = primary(); //read and evaluate a Term
-	Token t = ts.get();      //get the next Token from the Token stream
-	while (true)
-	{
-		switch (t.kind)
-		{
-		case '*':
-			left *= primary();
-			t = ts.get();
-			break;
-		case '/':
-		{
-			double d = primary();
-			if (d == 0) error("divide by zero");
-			left /= d;
-			t = ts.get();
-			break;
-		}
-		case '%':
-		{
-			double d = primary();
-			if (d == 0) error("divide by zero");
-			left = fmod(left, d);
-			t = ts.get();
-			break;
-		}
-		default:
-			ts.putback(t); //put t back into the Token stream
-			return left;
-		}
-	}
-}
-
-// deal with + and -
-double expression()
-{
-	double left = term(); //read and evaluate a Term
-	Token t = ts.get(); //get the next Token from the Token stream
-	while (true)
-	{
-		switch (t.kind)
-		{
-		case '+':
-			left += term(); //evaluate a Term and add
-			t = ts.get();
-			break;
-		case '-':
-			left -= term(); //evaluate a Term and subtract
-			t = ts.get();
-			break;
-		default:
-			ts.putback(t); //put t back into the token stream
-			return left; //finally: no more + or -; return the answer
-		}
-	}
 }
 
 const string prompt = ">";
