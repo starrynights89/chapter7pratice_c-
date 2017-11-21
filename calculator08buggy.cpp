@@ -14,14 +14,13 @@
 struct Token {
 	char kind;
 	double value;
-	string name;
+	string varname;
 	Token(char ch) :kind(ch), value(0) { }
 	Token(char ch, double val) :kind(ch), value(val) { }
-	Token(char ch, string val) :kind(ch), name(val) { } // fix added token 
+	Token(char ch, string val) :kind(ch), varname(val) { } // fix added token 
 };
 
 class Token_stream {
-private: //fix added private class
 	bool full;
 	Token buffer;
 public:
@@ -148,7 +147,7 @@ double primary()
 	case number:
 		return t.value;
 	case name:
-		return get_value(t.name);
+		return get_value(t.varname);
 	default:
 		error("primary expected");
 	}
@@ -199,7 +198,7 @@ double declaration()
 {
 	Token t = ts.get();
 	if (t.kind != 'a') error ("name expected in declaration");
-	string name = t.name;
+	string name = t.varname;
 	if (is_declared(name)) error(name, " declared twice");
 	Token t2 = ts.get();
 	if (t2.kind != '=') error("= missing in declaration of " ,name);
