@@ -255,6 +255,7 @@ double expression()
 	}
 }
 
+double define_name(string var, double val);
 //--------------------------------------------------------------------
 
 //assume we have seen "let"
