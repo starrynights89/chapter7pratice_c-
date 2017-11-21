@@ -56,6 +56,7 @@ Token Token_stream::get()
 	if (full) { full=false; return buffer; }
 	char ch;
 	cin >> ch;
+	if (! cin) return(Token(quit));
 	switch (ch) {
 	case '(':
 	case ')':
@@ -81,6 +82,7 @@ Token Token_stream::get()
 	{	cin.unget();
 		double val;
 		cin >> val;
+		if (! cin) error("Bad token");
 		return Token(number,val);
 	}
 	default:
@@ -89,11 +91,13 @@ Token Token_stream::get()
 			s += ch;
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s=ch;
 			cin.unget();
+			if (! cin) error("Bad token");
 			if (s == "let") return Token(let);	
 			if (s == "quit") return Token(quit); //FIX 1
 			return Token(name,s);
 		}
 		error("Bad token");
+		return Token(' ');
 	}
 }
 
