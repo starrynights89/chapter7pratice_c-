@@ -17,11 +17,11 @@ struct Token {
 	string name;
 	Token(char ch) :kind(ch), value(0) { }
 	Token(char ch, double val) :kind(ch), value(val) { }
-	Token(char ch, string val) :kind(ch), name(val) { }
+	Token(char ch, string val) :kind(ch), name(val) { } // fix added token 
 };
 
 class Token_stream {
-private: 
+private: //fix added private class
 	bool full;
 	Token buffer;
 public:
@@ -45,8 +45,6 @@ Token Token_stream::get()
 	char ch;
 	cin >> ch;
 	switch (ch) {
-	case quit:
-	case print:
 	case '(':
 	case ')':
 	case '+':
@@ -54,6 +52,7 @@ Token Token_stream::get()
 	case '*':
 	case '/':
 	case '%':
+	case ';':
 	case '=':
 		return Token(ch);
 	case '.':
@@ -79,7 +78,7 @@ Token Token_stream::get()
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s=ch;
 			cin.unget();
 			if (s == "let") return Token(let);	
-			if (s == "quit") return Token(name);
+			if (s == "quit") return Token(quit); //FIX 1
 			return Token(name,s);
 		}
 		error("Bad token");
