@@ -158,6 +158,39 @@ public:
 
 vector<Variable>var_table; //vector of variables 
 
+Token_stream ts; //provides get() and putback()
+double expression(); //declaration so that primary() can call expression()
+
+//--------------------------------------------------------------------
+
+//deal with numbers and parentheses
+double primary()  
+{
+	Token t = ts.get();
+	switch (t.kind)
+	{
+	case'(': //handle '('expression')'
+	{
+		double d = expression();
+		t = ts.get();
+		if (t.kind != ')') error("')' expected");
+		{
+			return d;
+		}
+	}
+	case number: 
+		return t.value; //return the number's value
+	case '-':
+		return - primary();
+	case '+':
+		return primary();
+default:
+	error("primary expected");
+	}
+}
+
+//--------------------------------------------------------------------
+
 double get_value(string s)
 	//return the value of the Variable named s
 {
@@ -206,8 +239,6 @@ double define_name(string var, double val)
 	return val;
 }
 
-double expression();
-
 double declaration()
 	//assume we have seen "let"
 	//handle: name = expression
@@ -223,36 +254,6 @@ double declaration()
 	double d = expression();
 	define_name(var_name, d);
 	return d; 
-}
-
-Token_stream ts; //provides get() and putback()
-
-double expression(); //declaration so that primary() can call expression()
-
-//deal with numbers and parentheses
-double primary()  
-{
-	Token t = ts.get();
-	switch (t.kind)
-	{
-	case'(': //handle '('expression')'
-	{
-		double d = expression();
-		t = ts.get();
-		if (t.kind != ')') error("')' expected");
-		{
-			return d;
-		}
-	}
-	case number: 
-		return t.value; //return the number's value
-	case '-':
-		return - primary();
-	case '+':
-		return primary();
-default:
-	error("primary expected");
-	}
 }
 
 // deal with *, /, %
