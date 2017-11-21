@@ -17,7 +17,7 @@ struct Token {
 	string name;
 	Token(char ch) :kind(ch), value(0) { }
 	Token(char ch, double val) :kind(ch), value(val) { }
-	Token(char ch, string n) :kind(ch), name(n) { }
+	Token(char ch, string val) :kind(ch), name(val) { }
 };
 
 class Token_stream {
