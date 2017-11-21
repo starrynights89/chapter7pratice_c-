@@ -147,6 +147,7 @@ void Token_stream::ignore(char c) //c represent the kind of Token
 
 //--------------------------------------------------------------------
 
+//type for (name, value pairs)
 class Variable
 {
 public:
@@ -155,7 +156,7 @@ public:
 	Variable(string n, double v) :name(n), value(v) { }
 };
 
-vector<Variable>var_table;
+vector<Variable>var_table; //vector of variables 
 
 double get_value(string s)
 	//return the value of the Variable named s
