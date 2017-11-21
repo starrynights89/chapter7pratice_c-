@@ -34,7 +34,7 @@ public:
 };
 
 const char let = 'L';
-const char quit = 'q';
+const char quit = 'Q';
 const char print = ';';
 const char number = '8';
 const char name = 'a';
