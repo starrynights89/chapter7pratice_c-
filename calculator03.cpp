@@ -183,10 +183,10 @@ double primary()
 	}
 	case number: 
 		return t.value; //return the number's value
+	case name:
+		return t.value; 
 	case '-':
 		return - primary();
-	case '+':
-		return primary();
 default:
 	error("primary expected");
 	}
