@@ -160,6 +160,8 @@ vector<Variable>var_table; //vector of variables
 
 Token_stream ts; //provides get() and putback()
 double expression(); //declaration so that primary() can call expression()
+const string prompt = ">";
+const string result = "="; //used to indicate that what follows is a result
 
 //--------------------------------------------------------------------
 
@@ -272,6 +274,51 @@ double declaration()
 	return d; 
 }
 
+//--------------------------------------------------------------------
+
+//handles declarations and expressions 
+double statement()
+{
+	Token t = ts.get();
+	switch (t.kind)
+	{
+		case let:
+			return declaration();
+		default:
+			ts.putback(t);
+			return expression();
+	}
+}
+
+//--------------------------------------------------------------------
+
+//clean input after error
+void clean_up_mess() 
+{
+	ts.ignore(print);
+}
+
+//--------------------------------------------------------------------
+
+void calculate() //expression evaluation loop
+{
+	while (cin)
+	try
+	{
+		cout << prompt;
+		Token t = ts.get();
+		while (t.kind == print) t = ts.get(); //first discard all "prints"
+		if (t.kind == quit) return;
+		ts.putback(t);
+		cout << result << statement() << '\n';
+	}
+	catch (exception& e)
+	{
+		cerr << e.what() << '\n'; //write error message
+		clean_up_mess();
+	}
+}
+
 double get_value(string s)
 	//return the value of the Variable named s
 {
@@ -318,46 +365,6 @@ double define_name(string var, double val)
 	if (is_declared(var)) error(var, " declared twice ");
 	var_table.push_back(Variable(var, val));
 	return val;
-}
-
-const string prompt = ">";
-const string result = "="; //used to indicate that what follows is a result
-
-double statement()
-{
-	Token t = ts.get();
-	switch (t.kind)
-	{
-		case let:
-			return declaration();
-		default:
-			ts.putback(t);
-			return expression();
-	}
-}
-
-void clean_up_mess() 
-{
-	ts.ignore(print);
-}
-
-void calculate() //expression evaluation loop
-{
-	while (cin)
-	try
-	{
-		cout << prompt;
-		Token t = ts.get();
-		while (t.kind == print) t = ts.get(); //first discard all "prints"
-		if (t.kind == quit) return;
-		ts.putback(t);
-		cout << result << statement() << '\n';
-	}
-	catch (exception& e)
-	{
-		cerr << e.what() << '\n'; //write error message
-		clean_up_mess();
-	}
 }
 
 int main()
