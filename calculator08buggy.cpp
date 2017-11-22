@@ -311,5 +311,6 @@ void calculate()
 int main()
 {
 	calculate();
+	keep_window_open();
 	return 0;
 }
