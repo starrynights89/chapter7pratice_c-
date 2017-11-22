@@ -105,7 +105,9 @@ Token Token_stream::get() //read a token from cin and compose a Token
 			{
 				cin.putback(ch);
 				string s;
-				cin >> s;
+				s += ch;
+				while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
+				cin.putback(ch);
 				if (s == declkey) 
 				{
 					return Token(let); //declaration keywordS
