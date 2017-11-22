@@ -67,6 +67,16 @@ const char print = ';'; //t.kind == print means that t is a print Token
 const char name = 'a'; //name token
 const char let = 'L'; //declaration token
 const string declkey = "let"; //declaration keyword
+const string prompt = "> ";
+const string result = "="; //used to indicate that what follows is a result
+
+// The putback() member function puts its argument back into the Token_stream's buffer:
+void Token_stream::putback(Token t)
+{
+	if (full) error("putback() into the full buffer");
+	buffer = t; //copy t to buffer
+	full = true; // buffer is now full 
+}
 
 Token Token_stream::get() //read a token from cin and compose a Token
 {
@@ -118,14 +128,6 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	}
 }
 
-// The putback() member function puts its argument back into the Token_stream's buffer:
-void Token_stream::putback(Token t)
-{
-	if (full) error("putback() into the full buffer");
-	buffer = t; //copy t to buffer
-	full = true; // buffer is now full 
-}
-
 //ignore Tokens up to a certain kind
 void Token_stream::ignore(char c) //c represent the kind of Token
 {
@@ -150,6 +152,10 @@ void Token_stream::ignore(char c) //c represent the kind of Token
 
 //--------------------------------------------------------------------
 
+Token_stream ts; //provides get() and putback()
+
+//--------------------------------------------------------------------
+
 //type for (name, value pairs)
 class Variable
 {
@@ -159,12 +165,13 @@ public:
 	Variable(string n, double v) :name(n), value(v) { }
 };
 
+//--------------------------------------------------------------------
+
 vector<Variable>var_table; //vector of variables 
 
-Token_stream ts; //provides get() and putback()
+//--------------------------------------------------------------------
+
 double expression(); //declaration so that primary() can call expression()
-const string prompt = "> ";
-const string result = "="; //used to indicate that what follows is a result
 
 //--------------------------------------------------------------------
 

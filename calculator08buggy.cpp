@@ -34,6 +34,7 @@ if full is true. buffer is initialised more cleanly [ NONFIX ].
 */
 
 class Token_stream {
+private:
 	bool full;
 	Token buffer;
 public:
