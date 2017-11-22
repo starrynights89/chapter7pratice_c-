@@ -171,6 +171,60 @@ vector<Variable>var_table; //vector of variables
 
 //--------------------------------------------------------------------
 
+double get_value(string s)
+	//return the value of the Variable named s
+{
+	for (int i = 0; i<var_table.size(); i++)
+	{
+		if(var_table[i].name == s)
+		{
+			return var_table[i].value;
+		}
+	}
+	error("get: undefined variable ", s);
+}
+
+//--------------------------------------------------------------------
+
+void set_value(string s, double d)
+	//set the Variable named s to d
+{
+	for(Variable& v : var_table)
+	{
+		if(v.name == s)
+		{
+			v.value = d;
+			return; 
+		}
+	}
+	error("set: undefined variable ", s);
+}
+
+//--------------------------------------------------------------------
+
+bool is_declared(string var)
+	//is var already in var_table?
+{
+	for (const Variable& v : var_table)
+	{
+		if(v.name == var) 
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+//--------------------------------------------------------------------
+
+double define_name(string var, double val)
+	//add (var, val) to var_table
+{
+	if (is_declared(var)) error(var, " declared twice ");
+	var_table.push_back(Variable(var, val));
+	return val;
+}
+
 double expression(); //declaration so that primary() can call expression()
 
 //--------------------------------------------------------------------
@@ -332,59 +386,7 @@ void calculate() //expression evaluation loop
 
 //--------------------------------------------------------------------
 
-double get_value(string s)
-	//return the value of the Variable named s
-{
-	for (const Variable& v : var_table)
-	{
-		if(v.name == s)
-		{
-			return v.value;
-		}
-	}
-	error("get: undefined variable ", s);
-}
 
-//--------------------------------------------------------------------
-
-void set_value(string s, double d)
-	//set the Variable named s to d
-{
-	for(Variable& v : var_table)
-	{
-		if(v.name == s)
-		{
-			v.value = d;
-			return; 
-		}
-	}
-	error("set: undefined variable ", s);
-}
-
-//--------------------------------------------------------------------
-
-bool is_declared(string var)
-	//is var already in var_table?
-{
-	for (const Variable& v : var_table)
-	{
-		if(v.name == var) 
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-//--------------------------------------------------------------------
-
-double define_name(string var, double val)
-	//add (var, val) to var_table
-{
-	if (is_declared(var)) error(var, " declared twice ");
-	var_table.push_back(Variable(var, val));
-	return val;
-}
 
 //--------------------------------------------------------------------
 
