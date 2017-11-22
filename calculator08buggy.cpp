@@ -309,8 +309,7 @@ void calculate()
 }
 
 int main()
-
-	try {
-		calculate();
-		return 0;
-	}
+{
+	calculate();
+	return 0;
+}
