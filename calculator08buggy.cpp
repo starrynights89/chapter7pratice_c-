@@ -101,6 +101,9 @@ Token Token_stream::get()
 	}
 }
 
+//Skip characters until its argument is matches, and throw that
+//character away.
+
 void Token_stream::ignore(char c)
 {
 	if (full && c==buffer.kind) {
@@ -114,20 +117,29 @@ void Token_stream::ignore(char c)
 		if (ch==c) return;
 }
 
+// This is a named variable
+
 struct Variable {
 	string name;
 	double value;
 	Variable(string n, double v) :name(n), value(v) { }
 };
 
+//The active variables
+
 vector<Variable> names;	
+
+//Get the value of a variable, or fail if no match
 
 double get_value(string s)
 {
 	for (int i = 0; i<names.size(); ++i)
 		if (names[i].name == s) return names[i].value;
 	error("get: undefined name ",s);
+	return 0.0;
 }
+
+//Set the value of a variable, or fail if no match. 
 
 void set_value(string s, double d)
 {
@@ -139,6 +151,8 @@ void set_value(string s, double d)
 	error("set: undefined name ",s);
 }
 
+// Check if a variable exists. 
+
 bool is_declared(string s)
 {
 	for (int i = 0; i<names.size(); ++i)
@@ -146,9 +160,13 @@ bool is_declared(string s)
 	return false;
 }
 
+//The token stream. Might be better to a class
+
 Token_stream ts;
 
 double expression();
+
+// Read a primary(value, operator or compound expression)
 
 double primary()
 {
@@ -167,8 +185,11 @@ double primary()
 		return get_value(t.varname);
 	default:
 		error("primary expected");
+		return 0.0;
 	}
 }
+
+// Read a mupltiplcation or division statement
 
 double term()
 {
@@ -192,6 +213,8 @@ double term()
 	}
 }
 
+//Read an addition or subtraction statement
+
 double expression()
 {
 	double left = term();
@@ -211,10 +234,12 @@ double expression()
 	}
 }
 
+//Read a variable declaration. 'a' has been changed to name [ NONFIX ]
+
 double declaration()
 {
 	Token t = ts.get();
-	if (t.kind != 'a') error ("name expected in declaration");
+	if (t.kind != name) error ("name expected in declaration");
 	string name = t.varname;
 	if (is_declared(name)) error(name, " declared twice");
 	Token t2 = ts.get();
@@ -224,9 +249,12 @@ double declaration()
 	return d;
 }
 
+//Read a statement. Missing print detection added [ NONFIX ]
+
 double statement()
 {
 	Token t = ts.get();
+	double d;
 	switch(t.kind) {
 	case let:
 		return declaration();
@@ -236,27 +264,33 @@ double statement()
 	}
 }
 
+//Skip to the next print character
+
 void clean_up_mess()
 {
 	ts.ignore(print);
 }
 
+//Output strings
+
 const string prompt = "> ";
 const string result = "= ";
 
+//Calculation loop is a total mess. Cleaned up case handling and indentation
+
 void calculate()
 {
-	while(true) try {
-		cout << prompt;
-		Token t = ts.get();
-		while (t.kind == print) t=ts.get();
-		if (t.kind == quit) return;
-		ts.unget(t);
-		cout << result << statement() << endl;
-	}
-	catch(runtime_error& e) {
-		cerr << e.what() << endl;
-		clean_up_mess();
+	while(cin)
+	{
+		try
+		{
+			cout << prompt;
+			Token t = ts.get();
+			if (t.kind == print)
+			{
+				t = ts.get();
+			}
+		}
 	}
 }
 
