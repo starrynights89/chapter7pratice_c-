@@ -189,11 +189,11 @@ double get_value(string s)
 void set_value(string s, double d)
 	//set the Variable named s to d
 {
-	for(Variable& v : var_table)
+	for(int i = 0; i<var_table.size(); i++)
 	{
-		if(v.name == s)
+		if(var_table[i].name == s)
 		{
-			v.value = d;
+			var_table[i].value = d;
 			return; 
 		}
 	}
@@ -205,9 +205,9 @@ void set_value(string s, double d)
 bool is_declared(string var)
 	//is var already in var_table?
 {
-	for (const Variable& v : var_table)
+	for (int i = 0; i<var_table.size(); i++)
 	{
-		if(v.name == var) 
+		if(var_table[i].name == var) 
 		{
 			return true;
 		}
@@ -224,6 +224,8 @@ double define_name(string var, double val)
 	var_table.push_back(Variable(var, val));
 	return val;
 }
+
+//--------------------------------------------------------------------
 
 double expression(); //declaration so that primary() can call expression()
 
@@ -250,6 +252,8 @@ double primary()
 		return t.value; 
 	case '-':
 		return - primary();
+	case '+':
+		return primary();
 default:
 	error("primary expected");
 	}
@@ -373,7 +377,7 @@ void calculate() //expression evaluation loop
 		cout << prompt;
 		Token t = ts.get();
 		while (t.kind == print) t = ts.get(); //first discard all "prints"
-		if (t.kind == quit) return;
+		if (t.kind == quit) return; //quit
 		ts.putback(t);
 		cout << result << statement() << '\n';
 	}
@@ -383,10 +387,6 @@ void calculate() //expression evaluation loop
 		clean_up_mess();
 	}
 }
-
-//--------------------------------------------------------------------
-
-
 
 //--------------------------------------------------------------------
 
