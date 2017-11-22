@@ -247,7 +247,8 @@ double primary()
 	case number: 
 		return t.value; //return the number's value
 	case name:
-		return get_value(t.name); //return the variable's value
+		return get_value(t.name); //return the variable's val
+		//THIS WAS THE BUG THAT I SPENT 6 HOURS DEBUGGING
 	case '-':
 		return - primary();
 	case '+':
