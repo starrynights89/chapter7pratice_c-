@@ -33,15 +33,24 @@
 
 #include "std_lib_facilities.h"
 
+const char number = '8'; //t.kind == number means that t is a number Token
+const char quit = 'q'; //t.kind == quit means that t is a quit Token
+const char print = ';'; //t.kind == print means that t is a print Token 
+const char name = 'a'; //name token
+const char let = 'L'; //declaration token
+const string declkey = "let"; //declaration keyword
+const string prompt = "> ";
+const string result = "="; //used to indicate that what follows is a result
+
 class Token
 {
 public:
     char kind; //what kind of token
     double value; //for numbers: a value
 	string name;
-	Token(char ch) :kind(ch), value(0) { } //initialize kind with ch
+	Token(char ch)             :kind(ch), value(0) { } //initialize kind with ch
 	Token(char ch, double val) :kind(ch), value(val) { } //initialize kind and value
-	Token(char ch, string n) :kind(ch), name(n) { } //initialize kind and name
+	Token(char ch, string n)   :kind(ch), name(n) { } //initialize kind and name
 };
 
 
@@ -59,16 +68,10 @@ private:
 };
 
 //constructor
-Token_stream::Token_stream() :full(false), buffer(0) { } //no Token in buffer
-
-const char number = '8'; //t.kind == number means that t is a number Token
-const char quit = 'q'; //t.kind == quit means that t is a quit Token
-const char print = ';'; //t.kind == print means that t is a print Token 
-const char name = 'a'; //name token
-const char let = 'L'; //declaration token
-const string declkey = "let"; //declaration keyword
-const string prompt = "> ";
-const string result = "="; //used to indicate that what follows is a result
+Token_stream::Token_stream()
+:full(false), buffer(0)
+{
+} //no Token in buffer
 
 // The putback() member function puts its argument back into the Token_stream's buffer:
 void Token_stream::putback(Token t)
@@ -110,21 +113,16 @@ Token Token_stream::get() //read a token from cin and compose a Token
 			cin >> val; //read a floating-point number
 			return Token(number, val); 
 		}
-		default:
-			if (isalpha(ch))
-			{
-				cin.putback(ch);
-				string s;
-				s += ch;
-				while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
-				cin.putback(ch);
-				if (s == declkey) 
-				{
-					return Token(let); //declaration keywordS
-				}
-				return Token{name, s};
-			} 
-			error("Bad token"); 
+		  default:
+        if (isalpha(ch)) {
+            string s;
+            s += ch;
+            while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
+            cin.putback(ch);
+            if (s == declkey) return Token(let); // keyword "let"
+            return Token(name,s);
+        }
+        error("Bad token");
 	}
 }
 
