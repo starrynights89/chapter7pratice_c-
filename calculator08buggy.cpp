@@ -290,6 +290,20 @@ void calculate()
 			{
 				t = ts.get();
 			}
+			else if (t.kind == quit)
+			{
+				return;
+			}
+			else
+			{
+				ts.unget(t);
+				cout << result << statement() << endl;
+			}
+		}
+		catch(runtime_error& e)
+		{
+			cerr << e.what() << endl;
+			clean_up_mess();
 		}
 	}
 }
@@ -299,16 +313,4 @@ int main()
 	try {
 		calculate();
 		return 0;
-	}
-	catch (exception& e) {
-		cerr << "exception: " << e.what() << endl;
-		char c;
-		while (cin >>c&& c!=';') ;
-		return 1;
-	}
-	catch (...) {
-		cerr << "exception\n";
-		char c;
-		while (cin>>c && c!=';');
-		return 2;
 	}
