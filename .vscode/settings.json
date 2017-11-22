@@ -5,6 +5,7 @@
         "regex": "cpp",
         "system_error": "cpp",
         "xlocmon": "cpp",
-        "xtr1common": "cpp"
+        "xtr1common": "cpp",
+        "exception": "cpp"
     }
 }
