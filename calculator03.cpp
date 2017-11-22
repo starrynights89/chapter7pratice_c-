@@ -39,9 +39,9 @@ public:
     char kind; //what kind of token
     double value; //for numbers: a value
 	string name;
-	Token(char ch) :kind{ch} { } //initialize kind with ch
-	Token(char ch, double val) :kind{ch}, value{val} { } //initialize kind and value
-	Token(char ch, string n) :kind{ch}, name{n} { } //initialize kind and name
+	Token(char ch) :kind(ch), value(0) { } //initialize kind with ch
+	Token(char ch, double val) :kind(ch), value(val) { } //initialize kind and value
+	Token(char ch, string n) :kind(ch), name(n) { } //initialize kind and name
 };
 
 
@@ -163,7 +163,7 @@ vector<Variable>var_table; //vector of variables
 
 Token_stream ts; //provides get() and putback()
 double expression(); //declaration so that primary() can call expression()
-const string prompt = ">";
+const string prompt = "> ";
 const string result = "="; //used to indicate that what follows is a result
 
 //--------------------------------------------------------------------
