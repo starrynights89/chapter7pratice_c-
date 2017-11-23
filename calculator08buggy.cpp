@@ -5,6 +5,8 @@
 	Helpful comments removed.
 
 	We have inserted 3 bugs that the compiler will catch and 3 that it won't.
+
+	COMMENCING BUG FIX
 */
 
 #include "std_lib_facilities.h"
@@ -13,11 +15,13 @@ struct Token {
 	char kind;
 	double value;
 	string name;
-	Token(char ch) :kind(ch), value(0) { }
+	Token(char ch)             :kind(ch), value(0) { }
 	Token(char ch, double val) :kind(ch), value(val) { }
+	Token(char ch, string n)   :kind(ch), name(n) { } //Fix 1 
 };
 
 class Token_stream {
+private: //Fix 2
 	bool full;
 	Token buffer;
 public:
