@@ -21,7 +21,6 @@ struct Token {
 };
 
 class Token_stream {
-private: //Fix 2
 	bool full;
 	Token buffer;
 public:
