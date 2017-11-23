@@ -12,33 +12,34 @@
 #include "std_lib_facilities.h"
 
 struct Token {
-	char kind;
-	double value;
+	char kind; //what kind of Token
+	double value; //for numbers: a value
 	string name;
-	Token(char ch)             :kind(ch), value(0) { }
-	Token(char ch, double val) :kind(ch), value(val) { }
-	Token(char ch, string n)   :kind(ch), name(n) { } //bugfix
+	Token(char ch)             :kind(ch), value(0) { } //initialize kind with ch
+	Token(char ch, double val) :kind(ch), value(val) { } //initialize kind and value
+	Token(char ch, string n)   :kind(ch), name(n) { } //bugfix/initialize kind and name
 };
 
+//stream of tokens
 class Token_stream {
-	bool full;
-	Token buffer;
+	bool full; //is there a Token in the buffer?
+	Token buffer; //here is where we keep a Token put back using unget()
 public:
-	Token_stream() :full(0), buffer(0) { }
+	Token_stream() :full(0), buffer(0) { } //make a Token_stream that reads from cin
 
-	Token get();
+	Token get(); //get a Token (get() is defined elsewhere)
 	void unget(Token t) { buffer=t; full=true; }
 
-	void ignore(char);
+	void ignore(char); //discard characters up to and include a c
 };
 
-const char let = 'L';
-const char quit = 'Q';
-const char print = ';';
-const char number = '8';
-const char name = 'a';
+const char let = 'L'; //declaration Token
+const char quit = 'Q'; //t.kind == quit means that t is a quit Token
+const char print = ';'; //t.kind == print means that t is a quit Token 
+const char number = '8'; //t.kind == number means that t is a number Token
+const char name = 'a'; //name Token
 
-Token Token_stream::get()
+Token Token_stream::get() //read a token from cin and compose a Token
 {
 	if (full) { full=false; return buffer; }
 	char ch;
