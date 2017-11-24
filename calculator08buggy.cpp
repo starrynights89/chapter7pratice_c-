@@ -54,8 +54,8 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	case '%':
 	case ';':
 	case '=':
-		return Token(ch);
-	case '.':
+		return Token(ch); //let each character represent itself
+	case '.':			  //a floating-point-literal can start with a dot
 	case '0':
 	case '1':
 	case '2':
@@ -65,8 +65,8 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	case '6':
 	case '7':
 	case '8':
-	case '9':
-	{	cin.unget();
+	case '9': //numeric literal
+	{	cin.unget(); //put digit back into the input stream
 		double val;
 		cin >> val;
 		return Token(number,val);
