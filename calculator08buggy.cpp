@@ -114,6 +114,8 @@ struct Variable {
 
 vector<Variable> names;	
 
+//--------------------------------------------------------------------
+
 double get_value(string s)
 {
 	for (int i = 0; i<names.size(); ++i)
