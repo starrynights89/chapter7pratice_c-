@@ -127,7 +127,7 @@ Token Token_stream::get() //read a token from cin and compose a Token
 }
 
 //ignore Tokens up to a certain kind
-void Token_stream::ignore(char c) //c represent the kind of Token
+void Token_stream::ignore(char c) //c represents the kind of Token
 {
 	//first look in buffer:
 	if (full && c == buffer.kind)
@@ -138,7 +138,7 @@ void Token_stream::ignore(char c) //c represent the kind of Token
 	full = false;
 	
 	//now search input:
-	char ch = 0;
+	char ch;
 	while (cin >> ch)
 	{
 		if (ch == c)

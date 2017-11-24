@@ -68,7 +68,7 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	case '9': //numeric literal
 	{	cin.unget(); //put digit back into the input stream
 		double val;
-		cin >> val;
+		cin >> val; //read a floating-point number
 		return Token(number,val);
 	}
 	default:
@@ -85,14 +85,17 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	}
 }
 
-void Token_stream::ignore(char c)
+//ignore Tokens up to a certain kind
+void Token_stream::ignore(char c) //c represents the kind of Token
 {
+	//first look in buffer
 	if (full && c==buffer.kind) {
 		full = false;
 		return;
 	}
 	full = false;
 
+	//now search input:
 	char ch;
 	while (cin>>ch)
 		if (ch==c) return;
