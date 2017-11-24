@@ -101,11 +101,16 @@ void Token_stream::ignore(char c) //c represents the kind of Token
 		if (ch==c) return;
 }
 
+//--------------------------------------------------------------------
+
+//type for (name, value pairs)
 struct Variable {
 	string name;
 	double value;
 	Variable(string n, double v) :name(n), value(v) { }
 };
+
+//--------------------------------------------------------------------
 
 vector<Variable> names;	
 
