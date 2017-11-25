@@ -252,7 +252,7 @@ void clean_up_mess()
 
 void calculate()
 {
-	while(true) try {
+	while(cin) try {  //bugfix
 		cout << prompt;
 		Token t = ts.get();
 		while (t.kind == print) t=ts.get();
