@@ -180,6 +180,7 @@ double primary()
 		return get_value(t.name);
 	default:
 		error("primary expected");
+		return 0.0; //Line missing 
 	}
 }
 

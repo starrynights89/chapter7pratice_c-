@@ -181,6 +181,7 @@ double get_value(string s)
 		}
 	}
 	error("get: undefined variable ", s);
+	return 0.0; //line missing 
 }
 
 //--------------------------------------------------------------------
@@ -371,8 +372,7 @@ void clean_up_mess()
 
 void calculate() //expression evaluation loop
 {
-	while (cin)
-	try
+	while (cin) try
 	{
 		cout << prompt;
 		Token t = ts.get();
