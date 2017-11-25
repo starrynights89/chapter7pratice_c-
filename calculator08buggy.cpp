@@ -103,6 +103,10 @@ void Token_stream::ignore(char c) //c represents the kind of Token
 
 //--------------------------------------------------------------------
 
+Token_stream ts; //provides get() and putback()
+
+//--------------------------------------------------------------------
+
 //type for (name, value pairs)
 struct Variable {
 	string name;
@@ -142,21 +146,6 @@ bool is_declared(string s)
 		if (names[i].name == s) return true;
 	return false;
 }
-
-//--------------------------------------------------------------------
-
-Token_stream ts; //provides get() and putback()
-
-//--------------------------------------------------------------------
-
-//type for (name, value pairs)
-class Variable
-{
-public:
-	string name;
-	double value;
-	Variable(string n, double v) :name(n), value(v) { }
-};
 
 //--------------------------------------------------------------------
 
