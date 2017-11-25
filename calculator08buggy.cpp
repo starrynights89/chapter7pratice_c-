@@ -34,10 +34,11 @@ public:
 };
 
 const char let = 'L'; //declaration Token
-const char quit = 'Q'; //t.kind == quit means that t is a quit Token
+const char quit = 'q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a quit Token 
 const char number = '8'; //t.kind == number means that t is a number Token
 const char name = 'a'; //name Token
+const string quitkey = "quit"; //keyword to quit
 const string prompt = "> ";
 const string result = "= "; //used to indicate that what follows is a result 
 
@@ -77,13 +78,14 @@ Token Token_stream::get() //read a token from cin and compose a Token
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
-			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s=ch;
+			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch; //bugfix
 			cin.unget();
 			if (s == "let") return Token(let);	
 			if (s == "quit") return Token(quit); //bugfix
 			return Token(name,s);
 		}
 		error("Bad token");
+		return Token(' ') //Line missing
 	}
 }
 
@@ -128,6 +130,7 @@ double get_value(string s)
 	for (int i = 0; i<names.size(); ++i)
 		if (names[i].name == s) return names[i].value;
 	error("get: undefined name ",s);
+	return 0.0; //Line missing 
 }
 
 //set the Variable named s to d
@@ -167,6 +170,7 @@ double primary()
 	{	double d = expression();
 		t = ts.get();
 		if (t.kind != ')') error("'(' expected");
+		return d; //Line missing 
 	}
 	case '-':
 		return - primary();

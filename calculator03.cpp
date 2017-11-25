@@ -123,6 +123,7 @@ Token Token_stream::get() //read a token from cin and compose a Token
             return Token(name,s);
         }
         error("Bad token");
+        return Token(' ') //Line missing
 	}
 }
 
