@@ -38,6 +38,8 @@ const char quit = 'Q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a quit Token 
 const char number = '8'; //t.kind == number means that t is a number Token
 const char name = 'a'; //name Token
+const string prompt = "> ";
+const string result = "= "; //used to indicate that what follows is a result 
 
 Token Token_stream::get() //read a token from cin and compose a Token
 {
@@ -147,6 +149,12 @@ bool is_declared(string s)
 	return false;
 }
 
+double define_name(string var, double val)
+{
+	if (is_declared(var)) error(var, " declared twice ");
+	names.push_back(Variable(var, val));
+}
+
 //--------------------------------------------------------------------
 
 double expression();
@@ -241,9 +249,6 @@ void clean_up_mess()
 {
 	ts.ignore(print);
 }
-
-const string prompt = "> ";
-const string result = "= ";
 
 void calculate()
 {
