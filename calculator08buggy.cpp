@@ -116,6 +116,7 @@ vector<Variable> names;
 
 //--------------------------------------------------------------------
 
+//return the value of the Variable named s
 double get_value(string s)
 {
 	for (int i = 0; i<names.size(); ++i)
@@ -123,6 +124,7 @@ double get_value(string s)
 	error("get: undefined name ",s);
 }
 
+//set the Variable named s to d
 void set_value(string s, double d)
 {
 	for (int i = 0; i<=names.size(); ++i)
@@ -133,6 +135,7 @@ void set_value(string s, double d)
 	error("set: undefined name ",s);
 }
 
+//is var already in var_table?
 bool is_declared(string s)
 {
 	for (int i = 0; i<names.size(); ++i)
@@ -140,7 +143,22 @@ bool is_declared(string s)
 	return false;
 }
 
-Token_stream ts;
+//--------------------------------------------------------------------
+
+Token_stream ts; //provides get() and putback()
+
+//--------------------------------------------------------------------
+
+//type for (name, value pairs)
+class Variable
+{
+public:
+	string name;
+	double value;
+	Variable(string n, double v) :name(n), value(v) { }
+};
+
+//--------------------------------------------------------------------
 
 double expression();
 

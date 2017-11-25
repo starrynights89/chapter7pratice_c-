@@ -169,8 +169,8 @@ vector<Variable>var_table; //vector of variables
 
 //--------------------------------------------------------------------
 
-double get_value(string s)
-	//return the value of the Variable named s
+//return the value of the Variable named s
+double get_value(string s)	
 {
 	for (int i = 0; i<var_table.size(); i++)
 	{
@@ -184,8 +184,8 @@ double get_value(string s)
 
 //--------------------------------------------------------------------
 
+//set the Variable named s to d
 void set_value(string s, double d)
-	//set the Variable named s to d
 {
 	for(int i = 0; i<var_table.size(); i++)
 	{
@@ -200,8 +200,8 @@ void set_value(string s, double d)
 
 //--------------------------------------------------------------------
 
-bool is_declared(string var)
-	//is var already in var_table?
+//is var already in var_table?
+bool is_declared(string var)	
 {
 	for (int i = 0; i<var_table.size(); i++)
 	{
@@ -215,8 +215,8 @@ bool is_declared(string var)
 
 //--------------------------------------------------------------------
 
+//add (var, val) to var_table
 double define_name(string var, double val)
-	//add (var, val) to var_table
 {
 	if (is_declared(var)) error(var, " declared twice ");
 	var_table.push_back(Variable(var, val));
