@@ -136,7 +136,7 @@ vector<Variable> names;
 //return the value of the Variable named s
 double get_value(string s)
 {
-	for (int i = 0; i<names.size(); ++i)
+	for (int i = 0; i<=names.size(); ++i)
 		if (names[i].name == s) return names[i].value;
 	error("get: undefined name ",s);
 	return 0.0; //Line missing 
@@ -161,10 +161,10 @@ bool is_declared(string s)
 	return false;
 }
 
-double define_name(string var, double val)
+double define_name(string s, double d)
 {
-	if (is_declared(var)) error(var, " declared twice ");
-	names.push_back(Variable(var, val));
+	if (is_declared(s)) error(s, " declared twice ");
+	names.push_back(Variable(s, d));
 }
 
 //--------------------------------------------------------------------
