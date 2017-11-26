@@ -43,7 +43,7 @@ const char name = 'a'; //name Token
 const char square_root = 's'; //square root Token
 const char power = 'p';  //power function Token
 const string sqrtkey = "sqrt"; //keyword for square root
-const string powkey = "pow"; //kewwor for power function 
+const string powkey = "pow"; //keyword for power function 
 const string quitkey = "quit"; //keyword to quit
 const string prompt = "> "; //used to indicate a prompt for entry
 const string result = "= "; //used to indicate that what follows is a result 
@@ -176,7 +176,7 @@ double expression();
 
 //simple power function
 //handles only integers >= as exponents
-double my_pow(double base, int expo)
+int my_pow(int base, int expo)
 {
 	if (expo == 0)
 	{
@@ -228,7 +228,7 @@ double primary()
 	{
 		t = ts.get();
 		if(t.kind != '(') error("'(' expected");
-		double d = expression();
+		int d = expression();
 		t = ts.get();
 		if(t.kind != ',') error("',' expected");
 		t = ts.get();
