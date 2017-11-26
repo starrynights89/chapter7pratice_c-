@@ -45,7 +45,7 @@ const char power = 'p';        //power function Token
 const string declkey = "let";  //declaration keyword
 const string sqrtkey = "sqrt"; //keyword for square root
 const string powkey = "pow";   //keyword for power function 
-const string quitkey = "quit"; //keyword to quit
+const string quitkey = "exit"; //keyword to quit
 const string prompt = "> ";    //used to indicate a prompt for entry
 const string result = "= ";    //used to indicate that what follows is a result 
 
