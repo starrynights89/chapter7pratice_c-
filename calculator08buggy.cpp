@@ -49,47 +49,43 @@ const string quitkey = "quit"; //keyword to quit
 const string prompt = "> ";    //used to indicate a prompt for entry
 const string result = "= ";    //used to indicate that what follows is a result 
 
-Token Token_stream::get() //read a token from cin and compose a Token
+// read characters from cin and compose a Token
+Token Token_stream::get()
 {
-	if (full) { full=false; return buffer; }
+	if (full)  // check if we already have a Token ready
+    {    
+		full = false;
+        return buffer;
+    }
+
 	char ch;
-	cin.get(ch); //note that cin.get() does NOT skip whitespace
-	while (isspace(ch))
-	{
-		if (ch=='\n')
-		{
-			return Token(print); //if newline detected, return print Token
-		}
-		cin.get(ch);
-	}
+	cin >> ch;
+
 	switch (ch) {
-	case print: 
+    //case 'H':
+    //    return Token(help);
+    //case help:
+    //case quit:
+    case print:
 	case '(':
 	case ')':
 	case '+':
 	case '-':
 	case '*':
 	case '/':
-	case '%':
-	case '=':
-		return Token(ch); //let each character represent itself
-	case '.':			  //a floating-point-literal can start with a dot
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
-	case '8':
-	case '9': //numeric literal
-	{	cin.putback(ch); //put digit back into the input stream
+    case '%':
+    case '=':
+    case ',':
+		return Token(ch);   // let each character represent itself
+	case '.':   // a floating-point-literal can start with a dot
+	case '0': case '1': case '2': case '3': case '4':
+	case '5': case '6': case '7': case '8': case '9':   // numeric literal
+	{	cin.putback(ch);    // put digit back into the input stream
 		double val;
-		cin >> val; //read a floating-point number
+		cin >> val;         // read a floating-point number
 		return Token(number,val);
 	}
-default:
+	default:
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
