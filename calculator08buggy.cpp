@@ -141,7 +141,7 @@ vector<Variable> names;
 //return the value of the Variable named s
 double get_value(string s)
 {
-	for (int i = 0; i<int(names.size()); ++i)
+	for (int i = 0; i<int(names.size()); ++i) //bugfix
 		if (names[i].name == s) return names[i].value;
 	error("get: undefined name ",s);
 	return 0.0; //Line missing 
@@ -150,7 +150,7 @@ double get_value(string s)
 //set the Variable named s to d
 void set_value(string s, double d)
 {
-	for (int i = 0; i<=int(names.size()); ++i)
+	for (int i = 0; i<=int(names.size()); ++i) //bugfix
 		if (names[i].name == s) {
 			names[i].value = d;
 			return;
