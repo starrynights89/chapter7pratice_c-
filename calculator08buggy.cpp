@@ -35,18 +35,19 @@ public:
 	void ignore(char); //discard characters up to and include a c
 };
 
-const char let = 'L'; //declaration Token
-const char quit = 'q'; //t.kind == quit means that t is a quit Token
-const char print = ';'; //t.kind == print means that t is a quit Token 
-const char number = '8'; //t.kind == number means that t is a number Token
-const char name = 'a'; //name Token
-const char square_root = 's'; //square root Token
-const char power = 'p';  //power function Token
+const char let = 'L';          //declaration Token
+const char quit = 'q';         //t.kind == quit means that t is a quit Token
+const char print = ';';        //t.kind == print means that t is a quit Token 
+const char number = '8';       //t.kind == number means that t is a number Token
+const char name = 'a';         //name Token
+const char square_root = 's';  //square root Token
+const char power = 'p';        //power function Token
+const string declkey = "let";  //declaration keyword
 const string sqrtkey = "sqrt"; //keyword for square root
-const string powkey = "pow"; //keyword for power function 
+const string powkey = "pow";   //keyword for power function 
 const string quitkey = "quit"; //keyword to quit
-const string prompt = "> "; //used to indicate a prompt for entry
-const string result = "= "; //used to indicate that what follows is a result 
+const string prompt = "> ";    //used to indicate a prompt for entry
+const string result = "= ";    //used to indicate that what follows is a result 
 
 Token Token_stream::get() //read a token from cin and compose a Token
 {
@@ -84,12 +85,12 @@ Token Token_stream::get() //read a token from cin and compose a Token
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
-			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch; //bugfix
+			while(cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')) s+=ch; //bugfix
 			cin.unget();
-			if (s == "let") return Token(let); //declaration keyword
+			if (s == declkey) return Token(let); //declaration keyword
 			if (s == sqrtkey) return Token(square_root); //square root keyword	
 			if (s == powkey) return Token(power); //power function keyword
-			if (s == "quit") return Token(quit); //bugfix
+			if (s == quitkey) return Token(quit); //bugfix
 			return Token(name,s);
 		}
 		error("Bad token");
@@ -345,6 +346,8 @@ int main()
 		define_name("e", 2.7182818284);
 		define_name("k", 1000);
 		calculate();
+
+		keep_window_open();
 		return 0;
 	}
 	catch (exception& e) {
