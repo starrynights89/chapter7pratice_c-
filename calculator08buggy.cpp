@@ -2,11 +2,35 @@
 /*
 	calculator08buggy.cpp
 
-	Helpful comments removed.
+	Simple calculator
 
-	We have inserted 3 bugs that the compiler will catch and 3 that it won't.
+	Revision history:
 
-	COMMENCING BUG FIX
+		Revised by Alexander Hartson Nov 2017
+		
+		This program implements a basic expression calculator.
+		Input from cin; output to cout.
+		The grammar for input is:
+
+	Statement:
+		Expression
+		Print 
+		Quit
+
+	Print:
+		;
+	Quit:
+		exit
+		
+	Expression:
+		Term
+		Expression + Term
+		Expression - Term
+	Term:
+		Primary 
+		Term * Primary
+		Term / Primary 
+		Primary:
 */
 
 #include "std_lib_facilities.h"
