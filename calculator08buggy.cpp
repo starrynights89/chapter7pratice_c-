@@ -11,7 +11,8 @@
 
 #include "std_lib_facilities.h"
 
-struct Token {
+class Token {
+public:
 	char kind; //what kind of Token
 	double value; //for numbers: a value
 	string name;
@@ -22,6 +23,7 @@ struct Token {
 
 //stream of tokens
 class Token_stream {
+private:
 	bool full; //is there a Token in the buffer?
 	Token buffer; //here is where we keep a Token put back using unget()
 public:
@@ -34,10 +36,17 @@ public:
 };
 
 const char let = 'L'; //declaration Token
-const char quit = 'Q'; //t.kind == quit means that t is a quit Token
+const char quit = 'q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a quit Token 
 const char number = '8'; //t.kind == number means that t is a number Token
 const char name = 'a'; //name Token
+const char square_root = 's'; //square root Token
+const char power = 'p';  //power function Token
+const string sqrtkey = "sqrt"; //keyword for square root
+const string powkey = "pow"; //kewwor for power function 
+const string quitkey = "quit"; //keyword to quit
+const string prompt = "> "; //used to indicate a prompt for entry
+const string result = "= "; //used to indicate that what follows is a result 
 
 Token Token_stream::get() //read a token from cin and compose a Token
 {
@@ -45,6 +54,7 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	char ch;
 	cin >> ch;
 	switch (ch) {
+	case print: 
 	case '(':
 	case ')':
 	case '+':
@@ -52,7 +62,6 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	case '*':
 	case '/':
 	case '%':
-	case ';':
 	case '=':
 		return Token(ch); //let each character represent itself
 	case '.':			  //a floating-point-literal can start with a dot
@@ -75,13 +84,16 @@ Token Token_stream::get() //read a token from cin and compose a Token
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
-			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s=ch;
+			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch; //bugfix
 			cin.unget();
-			if (s == "let") return Token(let);	
+			if (s == "let") return Token(let); //declaration keyword
+			if (s == sqrtkey) return Token(square_root); //square root keyword	
+			if (s == powkey) return Token(power); //power function keyword
 			if (s == "quit") return Token(quit); //bugfix
 			return Token(name,s);
 		}
 		error("Bad token");
+		return Token(' '); //Line missing
 	}
 }
 
@@ -103,8 +115,13 @@ void Token_stream::ignore(char c) //c represents the kind of Token
 
 //--------------------------------------------------------------------
 
+Token_stream ts; //provides get() and putback()
+
+//--------------------------------------------------------------------
+
 //type for (name, value pairs)
-struct Variable {
+class Variable {
+public:
 	string name;
 	double value;
 	Variable(string n, double v) :name(n), value(v) { }
@@ -116,13 +133,16 @@ vector<Variable> names;
 
 //--------------------------------------------------------------------
 
+//return the value of the Variable named s
 double get_value(string s)
 {
 	for (int i = 0; i<names.size(); ++i)
 		if (names[i].name == s) return names[i].value;
 	error("get: undefined name ",s);
+	return 0.0; //Line missing 
 }
 
+//set the Variable named s to d
 void set_value(string s, double d)
 {
 	for (int i = 0; i<=names.size(); ++i)
@@ -133,6 +153,7 @@ void set_value(string s, double d)
 	error("set: undefined name ",s);
 }
 
+//is var already in var_table?
 bool is_declared(string s)
 {
 	for (int i = 0; i<names.size(); ++i)
@@ -140,9 +161,37 @@ bool is_declared(string s)
 	return false;
 }
 
-Token_stream ts;
+double define_name(string var, double val)
+{
+	if (is_declared(var)) error(var, " declared twice ");
+	names.push_back(Variable(var, val));
+}
+
+//--------------------------------------------------------------------
 
 double expression();
+
+//--------------------------------------------------------------------
+
+//simple power function
+//handles only integers >= as exponents
+double my_pow(double base, int expo)
+{
+	if (expo == 0)
+	{
+		if(base == 0) //special case: pow(0,0)
+		{
+			return 0;
+		}
+		return 1; //something to power of 0
+	}
+	double res = base; //corresponds to power of 1
+	for (int i = 2; i<=expo; i++) //powers of 2 and more 
+	{
+		res *= base;
+	}
+	return res;
+}
 
 double primary()
 {
@@ -151,16 +200,47 @@ double primary()
 	case '(':
 	{	double d = expression();
 		t = ts.get();
-		if (t.kind != ')') error("'(' expected");
+		if (t.kind != ')') error("')' expected");
+		{
+			return d; //Line missing 
+		}
 	}
 	case '-':
 		return - primary();
+	case '+':
+		return primary();
 	case number:
 		return t.value;
 	case name:
 		return get_value(t.name);
+	case square_root: //handle sqrt(expression)
+	{
+		t = ts.get();
+		if(t.kind != '(') error("'(' expected");
+		double d = expression();
+		if (d < 0) error("Square root of negative numbers... nope!");
+		t = ts.get();
+		if (t.kind != ')') error("')' expected");
+		return sqrt(d);
+	}
+	case power: //handle pow(expression, integer)
+	{
+		t = ts.get();
+		if(t.kind != '(') error("'(' expected");
+		double d = expression();
+		t = ts.get();
+		if(t.kind != ',') error("',' expected");
+		t = ts.get();
+		if(t.kind != number) error("second argument of 'pow' is not a number");
+		int i = int(t.value);
+		if(i != t.value) error("second argument of 'pow' is not an integer");
+		t = ts.get();
+		if (t.kind != ')') error("')' expected");
+		return my_pow(d,i);
+	}
 	default:
 		error("primary expected");
+		return 0.0; //Line missing 
 	}
 }
 
@@ -205,6 +285,8 @@ double expression()
 	}
 }
 
+//--------------------------------------------------------------------
+
 double declaration()
 {
 	Token t = ts.get();
@@ -217,6 +299,8 @@ double declaration()
 	names.push_back(Variable(name,d));
 	return d;
 }
+
+//--------------------------------------------------------------------
 
 double statement()
 {
@@ -235,12 +319,11 @@ void clean_up_mess()
 	ts.ignore(print);
 }
 
-const string prompt = "> ";
-const string result = "= ";
+//--------------------------------------------------------------------
 
 void calculate()
 {
-	while(true) try {
+	while(cin) try {  //bugfix
 		cout << prompt;
 		Token t = ts.get();
 		while (t.kind == print) t=ts.get();
@@ -257,6 +340,9 @@ void calculate()
 int main()
 
 	try {
+		define_name("pi", 3.1415926535);
+		define_name("e", 2.7182818284);
+		define_name("k", 1000);
 		calculate();
 		return 0;
 	}
