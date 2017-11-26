@@ -89,7 +89,7 @@ Token Token_stream::get()
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
-			while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')) s+=ch;
+			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
 			cin.putback(ch);
             if (s == declkey) return Token(let);            // declaration keyword
             if (s == sqrtkey) return Token(square_root);    // square root keyword
