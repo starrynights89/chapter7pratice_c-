@@ -38,6 +38,7 @@ const char quit = 'q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a quit Token 
 const char number = '8'; //t.kind == number means that t is a number Token
 const char name = 'a'; //name Token
+const char square_root = 's'
 const string sqrtkey = "sqrt";
 const string quitkey = "quit"; //keyword to quit
 const string prompt = "> ";
