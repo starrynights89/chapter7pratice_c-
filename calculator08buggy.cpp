@@ -11,7 +11,8 @@
 
 #include "std_lib_facilities.h"
 
-struct Token {
+class Token {
+public:
 	char kind; //what kind of Token
 	double value; //for numbers: a value
 	string name;
@@ -22,6 +23,7 @@ struct Token {
 
 //stream of tokens
 class Token_stream {
+private:
 	bool full; //is there a Token in the buffer?
 	Token buffer; //here is where we keep a Token put back using unget()
 public:
@@ -115,7 +117,8 @@ Token_stream ts; //provides get() and putback()
 //--------------------------------------------------------------------
 
 //type for (name, value pairs)
-struct Variable {
+class Variable {
+public:
 	string name;
 	double value;
 	Variable(string n, double v) :name(n), value(v) { }
