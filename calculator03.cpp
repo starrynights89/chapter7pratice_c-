@@ -173,7 +173,7 @@ vector<Variable>var_table; //vector of variables
 //return the value of the Variable named s
 double get_value(string s)	
 {
-	for (int i = 0; i<var_table.size(); i++)
+	for (int i = 0; i<int(var_table.size()); i++)
 	{
 		if(var_table[i].name == s)
 		{
@@ -189,7 +189,7 @@ double get_value(string s)
 //set the Variable named s to d
 void set_value(string s, double d)
 {
-	for(int i = 0; i<var_table.size(); i++)
+	for(int i = 0; i<=int(var_table.size()); i++)
 	{
 		if(var_table[i].name == s)
 		{
@@ -205,7 +205,7 @@ void set_value(string s, double d)
 //is var already in var_table?
 bool is_declared(string var)	
 {
-	for (int i = 0; i<var_table.size(); i++)
+	for (int i = 0; i<int(var_table.size()); i++)
 	{
 		if(var_table[i].name == var) 
 		{
