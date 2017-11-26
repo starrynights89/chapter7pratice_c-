@@ -186,7 +186,7 @@ int my_pow(int base, int expo)
 		}
 		return 1; //something to power of 0
 	}
-	double res = base; //corresponds to power of 1
+	int res = base; //corresponds to power of 1
 	for (int i = 2; i<=expo; i++) //powers of 2 and more 
 	{
 		res *= base;
