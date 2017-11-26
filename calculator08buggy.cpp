@@ -178,6 +178,8 @@ double primary()
 	}
 	case '-':
 		return - primary();
+	case '+':
+		return primary();
 	case number:
 		return t.value;
 	case name:
@@ -239,6 +241,8 @@ double expression()
 	}
 }
 
+//--------------------------------------------------------------------
+
 double declaration()
 {
 	Token t = ts.get();
@@ -251,6 +255,8 @@ double declaration()
 	names.push_back(Variable(name,d));
 	return d;
 }
+
+//--------------------------------------------------------------------
 
 double statement()
 {
@@ -268,6 +274,8 @@ void clean_up_mess()
 {
 	ts.ignore(print);
 }
+
+//--------------------------------------------------------------------
 
 void calculate()
 {
