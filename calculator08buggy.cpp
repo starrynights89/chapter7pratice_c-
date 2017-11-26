@@ -76,21 +76,21 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	case '7':
 	case '8':
 	case '9': //numeric literal
-	{	cin.unget(); //put digit back into the input stream
+	{	cin.putback(ch); //put digit back into the input stream
 		double val;
 		cin >> val; //read a floating-point number
 		return Token(number,val);
 	}
-	default:
+default:
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
-			while(cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')) s+=ch; //bugfix
-			cin.unget();
-			if (s == declkey) return Token(let); //declaration keyword
-			if (s == sqrtkey) return Token(square_root); //square root keyword	
-			if (s == powkey) return Token(power); //power function keyword
-			if (s == quitkey) return Token(quit); //bugfix
+			while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')) s+=ch;
+			cin.putback(ch);
+            if (s == declkey) return Token(let);            // declaration keyword
+            if (s == sqrtkey) return Token(square_root);    // square root keyword
+            if (s == powkey) return Token(power);           // power function keyword
+            if (s == quitkey) return Token(quit);           // quit keyword
 			return Token(name,s);
 		}
 		error("Bad token");
@@ -175,24 +175,19 @@ double expression();
 
 //--------------------------------------------------------------------
 
-//simple power function
-//handles only integers >= as exponents
-int my_pow(int base, int expo)
+// simple power function
+// handles only integers >= 0 as exponents
+double my_pow(double base, int expo)
 {
-	if (expo == 0)
+    if (expo == 0)
 	{
-		if(base == 0) //special case: pow(0,0)
-		{
-			return 0;
-		}
-		return 1; //something to power of 0
-	}
-	int res = base; //corresponds to power of 1
-	for (int i = 2; i<=expo; i++) //powers of 2 and more 
-	{
-		res *= base;
-	}
-	return res;
+    	if (base == 0) return 0;    // special case: pow(0,0)
+        return 1;                   // something to power of 0
+    }
+    double res = base;              // corresponds to power of 1
+    for (int i = 2; i<=expo; ++i)   // powers of 2 and more
+        res *= base;
+    return res;
 }
 
 double primary()
@@ -225,21 +220,21 @@ double primary()
 		if (t.kind != ')') error("')' expected");
 		return sqrt(d);
 	}
-	case power: //handle pow(expression, integer)
-	{
+	case power: // handle 'pow(' expression ',' integer ')'
+    {   
 		t = ts.get();
-		if(t.kind != '(') error("'(' expected");
-		int d = expression();
-		t = ts.get();
-		if(t.kind != ',') error("',' expected");
-		t = ts.get();
-		if(t.kind != number) error("second argument of 'pow' is not a number");
-		int i = int(t.value);
-		if(i != t.value) error("second argument of 'pow' is not an integer");
-		t = ts.get();
-		if (t.kind != ')') error("')' expected");
-		return my_pow(d,i);
-	}
+        if (t.kind != '(') error("'(' expected");
+        double d = expression();
+        t = ts.get();
+        if (t.kind != ',') error("',' expected");
+        t = ts.get();
+        if (t.kind != number) error("second argument of 'pow' is not a number");
+        int i = int(t.value);
+        if (i != t.value) error("second argument of 'pow' is not an integer");
+        t = ts.get();
+        if (t.kind != ')') error("')' expected");
+        return my_pow(d,i);
+    }
 	default:
 		error("primary expected");
 		return 0.0; //Line missing 
