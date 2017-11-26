@@ -40,10 +40,12 @@ const char quit = 'q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a quit Token 
 const char number = '8'; //t.kind == number means that t is a number Token
 const char name = 'a'; //name Token
-const char square_root = 's';
-const string sqrtkey = "sqrt";
+const char square_root = 's'; //square root Token
+const char power = 'p';  //power function Token
+const string sqrtkey = "sqrt"; //keyword for square root
+const string powkey = "pow"; //kewwor for power function 
 const string quitkey = "quit"; //keyword to quit
-const string prompt = "> ";
+const string prompt = "> "; //used to indicate a prompt for entry
 const string result = "= "; //used to indicate that what follows is a result 
 
 Token Token_stream::get() //read a token from cin and compose a Token
@@ -52,6 +54,7 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	char ch;
 	cin >> ch;
 	switch (ch) {
+	case print: 
 	case '(':
 	case ')':
 	case '+':
@@ -59,7 +62,6 @@ Token Token_stream::get() //read a token from cin and compose a Token
 	case '*':
 	case '/':
 	case '%':
-	case ';':
 	case '=':
 		return Token(ch); //let each character represent itself
 	case '.':			  //a floating-point-literal can start with a dot
@@ -84,8 +86,9 @@ Token Token_stream::get() //read a token from cin and compose a Token
 			s += ch;
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch; //bugfix
 			cin.unget();
-			if (s == "let") return Token(let);
+			if (s == "let") return Token(let); //declaration keyword
 			if (s == sqrtkey) return Token(square_root); //square root keyword	
+			if (s == powkey) return Token(power); //power function keyword
 			if (s == "quit") return Token(quit); //bugfix
 			return Token(name,s);
 		}
@@ -167,6 +170,28 @@ double define_name(string var, double val)
 //--------------------------------------------------------------------
 
 double expression();
+
+//--------------------------------------------------------------------
+
+//simple power function
+//handles only integers >= as exponents
+double my_pow(double base, int expo)
+{
+	if (expo == 0)
+	{
+		if(base == 0) //special case: pow(0,0)
+		{
+			return 0;
+		}
+		return 1; //something to power of 0
+	}
+	double res = base; //corresponds to power of 1
+	for (int i = 2; i<=expo; i++) //powers of 2 and more 
+	{
+		res *= base;
+	}
+	return res;
+}
 
 double primary()
 {
