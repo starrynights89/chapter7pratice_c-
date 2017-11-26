@@ -42,7 +42,7 @@ const char number = '8';       //t.kind == number means that t is a number Token
 const char name = 'a';         //name Token
 const char square_root = 's';  //square root Token
 const char power = 'p';        //power function Token
-const string declkey = "let";  //declaration keyword
+const string declkey = "#";  //declaration keyword
 const string sqrtkey = "sqrt"; //keyword for square root
 const string powkey = "pow";   //keyword for power function 
 const string quitkey = "quit"; //keyword to quit
