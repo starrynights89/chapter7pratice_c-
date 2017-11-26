@@ -53,7 +53,15 @@ Token Token_stream::get() //read a token from cin and compose a Token
 {
 	if (full) { full=false; return buffer; }
 	char ch;
-	cin >> ch;
+	cin.get(ch); //note that cin.get() does NOT skip whitespace
+	while (isspace(ch))
+	{
+		if (ch=='\n')
+		{
+			return Token(print); //if newline detected, return print Token
+		}
+		cin.get(ch);
+	}
 	switch (ch) {
 	case print: 
 	case '(':
