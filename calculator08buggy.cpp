@@ -165,6 +165,7 @@ double define_name(string s, double d)
 {
 	if (is_declared(s)) error(s, " declared twice ");
 	names.push_back(Variable(s, d));
+	return d;
 }
 
 //--------------------------------------------------------------------
