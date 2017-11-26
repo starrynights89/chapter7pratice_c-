@@ -141,7 +141,7 @@ vector<Variable> names;
 //return the value of the Variable named s
 double get_value(string s)
 {
-	for (int i = 0; i<=names.size(); ++i)
+	for (int i = 0; i<int(names.size()); ++i)
 		if (names[i].name == s) return names[i].value;
 	error("get: undefined name ",s);
 	return 0.0; //Line missing 
@@ -150,7 +150,7 @@ double get_value(string s)
 //set the Variable named s to d
 void set_value(string s, double d)
 {
-	for (int i = 0; i<=names.size(); ++i)
+	for (int i = 0; i<=int(names.size()); ++i)
 		if (names[i].name == s) {
 			names[i].value = d;
 			return;
@@ -161,7 +161,7 @@ void set_value(string s, double d)
 //is var already in var_table?
 bool is_declared(string s)
 {
-	for (int i = 0; i<names.size(); ++i)
+	for (int i = 0; i<int(names.size()); ++i)
 		if (names[i].name == s) return true;
 	return false;
 }
