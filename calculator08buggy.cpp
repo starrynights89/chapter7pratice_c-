@@ -213,7 +213,7 @@ double primary()
 		return t.value;
 	case name:
 		return get_value(t.name);
-	case square_root:
+	case square_root: //handle sqrt(expression)
 	{
 		t = ts.get();
 		if(t.kind != '(') error("'(' expected");
@@ -222,6 +222,21 @@ double primary()
 		t = ts.get();
 		if (t.kind != ')') error("')' expected");
 		return sqrt(d);
+	}
+	case power: //handle pow(expression, integer)
+	{
+		t = ts.get();
+		if(t.kind != '(') error("'(' expected");
+		double d = expression();
+		t = ts.get();
+		if(t.kind != ',') error("',' expected");
+		t = ts.get();
+		if(t.kind != number) error("second argument of 'pow' is not a number");
+		int i = int(t.value);
+		if(i != t.value) error("second argument of 'pow' is not an integer");
+		t = ts.get();
+		if (t.kind != ')') error("')' expected");
+		return my_pow(d,i);
 	}
 	default:
 		error("primary expected");
