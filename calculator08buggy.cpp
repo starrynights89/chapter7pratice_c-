@@ -38,6 +38,7 @@ const char quit = 'q'; //t.kind == quit means that t is a quit Token
 const char print = ';'; //t.kind == print means that t is a quit Token 
 const char number = '8'; //t.kind == number means that t is a number Token
 const char name = 'a'; //name Token
+const string sqrtkey = "sqrt";
 const string quitkey = "quit"; //keyword to quit
 const string prompt = "> ";
 const string result = "= "; //used to indicate that what follows is a result 
@@ -80,7 +81,8 @@ Token Token_stream::get() //read a token from cin and compose a Token
 			s += ch;
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch; //bugfix
 			cin.unget();
-			if (s == "let") return Token(let);	
+			if (s == "let") return Token(let);
+			if (s == sqrtkey) return Token(square_root); //square root keyword	
 			if (s == "quit") return Token(quit); //bugfix
 			return Token(name,s);
 		}
@@ -169,8 +171,10 @@ double primary()
 	case '(':
 	{	double d = expression();
 		t = ts.get();
-		if (t.kind != ')') error("'(' expected");
-		return d; //Line missing 
+		if (t.kind != ')') error("')' expected");
+		{
+			return d; //Line missing 
+		}
 	}
 	case '-':
 		return - primary();
@@ -178,6 +182,16 @@ double primary()
 		return t.value;
 	case name:
 		return get_value(t.name);
+	case square_root:
+	{
+		t = ts.get()
+		if(t.kind != '(') error("'(' expected");
+		double d = expression();
+		if (d < 0) error("Square root of negative numbers... nope!");
+		t = ts.get();
+		if (t.kind != ')') error("')' expected");
+		return sqrt(d);
+	}
 	default:
 		error("primary expected");
 		return 0.0; //Line missing 
