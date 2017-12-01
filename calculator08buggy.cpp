@@ -270,9 +270,9 @@ double primary()
 	}
 }
 
-double term()
+double term(Token_stream& ts)
 {
-	double left = primary();
+	double left = primary(ts);
 	while(true) {
 		Token t = ts.get();
 		switch(t.kind) {
@@ -280,7 +280,7 @@ double term()
 			left *= primary();
 			break;
 		case '/':
-		{	double d = primary();
+		{	double d = primary(ts);
 			if (d == 0) error("divide by zero");
 			left /= d;
 			break;
