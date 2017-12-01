@@ -7,6 +7,7 @@
 	Revision history:
 
 		Revised by Alexander Hartson Nov 2017
+		Further updates for chapter 8
 		
 		This program implements a basic expression calculator.
 		Input from cin; output to cout.
