@@ -219,12 +219,12 @@ double my_pow(double base, int expo)
     return res;
 }
 
-double primary()
+double primary(Token_stream& ts)
 {
 	Token t = ts.get();
 	switch (t.kind) {
 	case '(':
-	{	double d = expression();
+	{	double d = expression(ts);
 		t = ts.get();
 		if (t.kind != ')') error("')' expected");
 		{
