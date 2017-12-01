@@ -292,9 +292,9 @@ double term()
 	}
 }
 
-double expression()
+double expression(Token_stream& ts)
 {
-	double left = term();
+	double left = term(ts);
 	while(true) {
 		Token t = ts.get();
 		switch(t.kind) {
