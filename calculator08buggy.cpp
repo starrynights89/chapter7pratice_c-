@@ -219,12 +219,12 @@ double my_pow(double base, int expo)
     return res;
 }
 
-double primary(Token_stream& ts)
+double primary()
 {
 	Token t = ts.get();
 	switch (t.kind) {
 	case '(':
-	{	double d = expression(ts);
+	{	double d = expression();
 		t = ts.get();
 		if (t.kind != ')') error("')' expected");
 		{
@@ -232,9 +232,9 @@ double primary(Token_stream& ts)
 		}
 	}
 	case '-':
-		return - primary(ts);
+		return - primary();
 	case '+':
-		return primary(ts);
+		return primary();
 	case number:
 		return t.value;
 	case name:
@@ -270,17 +270,17 @@ double primary(Token_stream& ts)
 	}
 }
 
-double term(Token_stream& ts)
+double term()
 {
-	double left = primary(ts);
+	double left = primary();
 	while(true) {
 		Token t = ts.get();
 		switch(t.kind) {
 		case '*':
-			left *= primary(ts);
+			left *= primary();
 			break;
 		case '/':
-		{	double d = primary(ts);
+		{	double d = primary();
 			if (d == 0) error("divide by zero");
 			left /= d;
 			break;
@@ -292,17 +292,17 @@ double term(Token_stream& ts)
 	}
 }
 
-double expression(Token_stream& ts)
+double expression()
 {
-	double left = term(ts);
+	double left = term();
 	while(true) {
 		Token t = ts.get();
 		switch(t.kind) {
 		case '+':
-			left += term(ts);
+			left += term();
 			break;
 		case '-':
-			left -= term(ts);
+			left -= term();
 			break;
 		default:
 			ts.unget(t);
