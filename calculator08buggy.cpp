@@ -232,9 +232,9 @@ double primary(Token_stream& ts)
 		}
 	}
 	case '-':
-		return - primary();
+		return - primary(ts);
 	case '+':
-		return primary();
+		return primary(ts);
 	case number:
 		return t.value;
 	case name:
@@ -277,7 +277,7 @@ double term(Token_stream& ts)
 		Token t = ts.get();
 		switch(t.kind) {
 		case '*':
-			left *= primary();
+			left *= primary(ts);
 			break;
 		case '/':
 		{	double d = primary(ts);
@@ -299,10 +299,10 @@ double expression(Token_stream& ts)
 		Token t = ts.get();
 		switch(t.kind) {
 		case '+':
-			left += term();
+			left += term(ts);
 			break;
 		case '-':
-			left -= term();
+			left -= term(ts);
 			break;
 		default:
 			ts.unget(t);
