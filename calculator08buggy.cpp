@@ -365,24 +365,24 @@ void calculate()
 
 int main()
 
-	try {
-		define_name("pi", 3.1415926535);
-		define_name("e", 2.7182818284);
-		define_name("k", 1000);
-		calculate();
+try {
+	define_name("pi", 3.1415926535);
+	define_name("e", 2.7182818284);
+	define_name("k", 1000);
+	calculate();
 
-		keep_window_open();
-		return 0;
-	}
-	catch (exception& e) {
-		cerr << "exception: " << e.what() << endl;
-		char c;
-		while (cin >>c&& c!=';') ;
-		return 1;
-	}
-	catch (...) {
-		cerr << "exception\n";
-		char c;
-		while (cin>>c && c!=';');
-		return 2;
-	}
+	keep_window_open();
+	return 0;
+}
+catch (exception& e) {
+	cerr << "exception: " << e.what() << endl;
+	char c;
+	while (cin >>c&& c!=';') ;
+	return 1;
+}
+catch (...) {
+	cerr << "exception\n";
+	char c;
+	while (cin>>c && c!=';');
+	return 2;
+}
